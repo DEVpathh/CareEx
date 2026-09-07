@@ -27,3 +27,10 @@ export function requestAttendant(reason: string, language: string, urgent = fals
     body: JSON.stringify({ reason, language, urgent }),
   })
 }
+
+export function scanDocument(fileName: string, fileType: 'prescription' | 'lab_report' | 'discharge_summary', rawText?: string) {
+  return apiRequest('/api/v1/documents/scan', {
+    method: 'POST',
+    body: JSON.stringify({ fileName, fileType, rawText }),
+  })
+}

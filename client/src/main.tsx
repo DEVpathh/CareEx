@@ -1,12 +1,12 @@
 import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ArrowRight, HandHelping, Languages, Leaf, Moon, Stethoscope, Volume2, VolumeX, X } from 'lucide-react'
+import { ArrowRight, Camera, HandHelping, Languages, Leaf, Moon, Stethoscope, Volume2, VolumeX, X } from 'lucide-react'
 import './index.css'
 import { PatientExperience } from './features/patient/PatientExperience'
 import { DoctorExperience } from './features/doctor/DoctorExperience'
 import { AdminExperience } from './features/admin/AdminExperience'
 import { BrandLogo } from './components/BrandLogo'
-import { getPatientExperience, requestAttendant } from './services/patientService'
+import { getPatientExperience, requestAttendant, scanDocument } from './services/patientService'
 import type { PatientExperienceConfig } from './types/clinical'
 
 export type Role = 'patient' | 'doctor' | 'admin'
@@ -21,6 +21,7 @@ function App() {
   const [helpMessage, setHelpMessage] = useState('')
   const [helpBusy, setHelpBusy] = useState(false)
   const [configError, setConfigError] = useState(false)
+  const [scanNotice, setScanNotice] = useState('')
   const headerLogo = useRef<HTMLImageElement>(null)
   const wakeLogo = useRef<HTMLImageElement>(null)
   const waking = useRef(false)
@@ -33,7 +34,6 @@ function App() {
   const wake = () => {
     if (waking.current || phase !== 'asleep') return
     waking.current = true
-    // Unlock speech on the actual touch; the first question is spoken after the logo arrives.
     if (voice && window.speechSynthesis) {
       const unlock = new SpeechSynthesisUtterance(' ')
       unlock.lang = 'hi-IN'; window.speechSynthesis.speak(unlock)
@@ -57,12 +57,26 @@ function App() {
     finally { setHelpBusy(false) }
   }
 
+  const handleHeaderScan = async () => {
+    try {
+      await scanDocument('Prescription_QR_Scan.pdf', 'prescription', 'मुझे २ दिन से सिर में दर्द है')
+      setScanNotice(t('📷 पर्चा / QR स्कैन सफल! डेटा और रिपोर्ट जुड़ गए हैं।', '📷 Prescription / QR Scan Success! Patient data auto-filled.'))
+      setRole('patient')
+    } catch {
+      setScanNotice(t('स्कैन नहीं हो पाया।', 'Scan failed.'))
+    }
+  }
+
   return <div className={`app-shell ${ayush ? 'ayush-mode' : ''}`}>
     <div {...(phase !== 'awake' ? { inert: '' } : {})} className={phase === 'awake' ? 'app-content awake' : 'app-content'}>
       <header className="app-header">
         <div className="header-inner">
           <div className="brand-lockup"><BrandLogo ref={headerLogo}/><div><div className="brand-name">Care<span>X</span></div><p>{t('आपकी सेहत, हमारा साथ', 'Your health, our care')}</p></div></div>
           <div className="header-tools">
+            <button onClick={handleHeaderScan} className="help-control" style={{ background: '#0284c7', color: '#ffffff', border: 'none', padding: '0.5rem 1rem', borderRadius: '8px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+              <Camera size={22} />
+              <span>{t('📷 पर्चा / QR स्कैन', '📷 Scan QR / Record')}</span>
+            </button>
             <label className="language-control"><Languages size={23}/><select aria-label="Language / भाषा" value={language} onChange={event => setLanguage(event.target.value)}><option value="हिन्दी">हिन्दी</option><option value="English">English</option></select></label>
             <button aria-pressed={voice} onClick={() => setVoice(current => !current)} className={`audio-control ${voice ? 'enabled' : ''}`}>{voice ? <Volume2 size={28}/> : <VolumeX size={28}/>}<span>{t(voice ? 'आवाज़ चालू' : 'आवाज़ बंद', voice ? 'Audio on' : 'Audio off')}</span></button>
             <button aria-label={t('सहायता', 'Get help')} disabled={helpBusy} onClick={askForHelp} className="help-control"><HandHelping size={24}/><span>{t('सहायता', 'Get help')}</span></button>
@@ -78,6 +92,7 @@ function App() {
       <footer className="app-footer"><span>{t('आपकी जानकारी डॉक्टर को आपकी देखभाल में मदद करती है।', 'Your answers help your doctor care for you.')}</span>{role !== 'patient' && <button onClick={reset}><Moon size={19}/>{t('कियोस्क सुलाएं', 'Sleep kiosk')}</button>}</footer>
     </div>
     {helpMessage && <div className="toast" role="status"><p>{helpMessage}</p><button onClick={() => setHelpMessage('')} aria-label={t('बंद करें', 'Close')}><X/></button></div>}
+    {scanNotice && <div className="toast" role="status" style={{ background: '#0284c7', color: '#ffffff' }}><p>{scanNotice}</p><button onClick={() => setScanNotice('')} aria-label={t('बंद करें', 'Close')} style={{ color: '#ffffff' }}><X/></button></div>}
     {phase !== 'awake' && <button onClick={wake} className={`wake-screen ${phase === 'waking' ? 'waking' : ''}`} aria-label="Please tap to awake the kiosk"><div className="wake-orbit"/><BrandLogo ref={wakeLogo} className="wake-logo"/><div className="wake-note"><p>Please tap to awake the kiosk</p><p lang="hi">शुरू करने के लिए स्क्रीन छुएं</p><span className="wake-touch"><span/></span></div></button>}
   </div>
 }

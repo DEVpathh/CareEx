@@ -179,14 +179,76 @@ export function analyseIntake({ complaint, pathway = 'general', language = 'Engl
   const chestEmergency = chest && (symptoms.some(item => item.id === 'breathlessness') || /sweat|पसीना|pasina|paseena/.test(text))
   if (urgentText || chestEmergency) urgentReasons.unshift(hi ? 'आपकी बताई परेशानी में तुरंत चिकित्सक की सहायता की ज़रूरत हो सकती है।' : 'Your reported symptoms may need immediate clinical attention.')
   if (allAnswers['ear.sudden'] === 'yes') urgentReasons.push(hi ? 'अचानक सुनाई कम देना: तुरंत चिकित्सक को बताएं।' : 'Sudden hearing loss: seek prompt clinical review.')
+  // Calculate Triage Level
+  let triageLevel = 'green'
+  const isRed = urgentReasons.length > 0 || urgentText || chestEmergency
+  const highSeverity = Number(allAnswers.severity ?? 0) >= 7
+  const isYellow = !isRed && (highSeverity || symptoms.length >= 3 || symptoms.some(s => ['fever', 'vomiting', 'diarrhoea', 'blood_pressure', 'diabetes'].includes(s.id)))
+  
+  if (isRed) triageLevel = 'red'
+  else if (isYellow) triageLevel = 'yellow'
+
+  // Calculate Tridosha Balance (Vata, Pitta, Kapha scores)
+  let vata = 30, pitta = 30, kapha = 30
+  symptoms.forEach(item => {
+    if (['joint_pain', 'back_pain', 'headache', 'constipation', 'dizziness'].includes(item.id)) vata += 20
+    if (['fever', 'acidity', 'skin', 'urinary', 'blood_pressure'].includes(item.id)) pitta += 20
+    if (['cough', 'fatigue', 'diabetes'].includes(item.id)) kapha += 20
+  })
+  if (allAnswers['cough.kind'] === 'phlegm') kapha += 15
+  if (allAnswers['ayush.digestion'] && /poor|slow|कम|मंद/.test(allAnswers['ayush.digestion'])) vata += 10
+  if (allAnswers['ayush.digestion'] && /acid|burn|जलन|तीक्ष्ण/.test(allAnswers['ayush.digestion'])) pitta += 15
+
+  const totalDosha = vata + pitta + kapha
+  const vataPct = Math.round((vata / totalDosha) * 100)
+  const pittaPct = Math.round((pitta / totalDosha) * 100)
+  const kaphaPct = Math.round((kapha / totalDosha) * 100)
+
+  let dominant = 'Vata-Pitta'
+  if (vataPct >= 45) dominant = 'Vata'
+  else if (pittaPct >= 45) dominant = 'Pitta'
+  else if (kaphaPct >= 45) dominant = 'Kapha'
+  else if (vataPct > kaphaPct && pittaPct > kaphaPct) dominant = 'Vata-Pitta'
+  else if (pittaPct > vataPct && kaphaPct > vataPct) dominant = 'Pitta-Kapha'
+  else if (vataPct > pittaPct && kaphaPct > pittaPct) dominant = 'Vata-Kapha'
+  else dominant = 'Tridoshaja'
+
+  const tridosha = {
+    vata: vataPct,
+    pitta: pittaPct,
+    kapha: kaphaPct,
+    dominant,
+    notes: hi ? `प्रबल दोष: ${dominant}` : `Dominant Doshic Imbalance: ${dominant}`
+  }
+
   const localized = questions.map(question => localize(question, hi))
   const symptomLabels = symptoms.map(item => hi ? item.hi : item.en)
+
+  // Calculate Dashavidha Pariksha Parameters
+  const dashavidha = {
+    prakriti: dominant,
+    vikriti: symptomLabels.length ? symptomLabels.join(', ') : 'Mild Doshic Variance',
+    agni: allAnswers['ayush.digestion'] || (symptoms.some(s => s.id === 'acidity') ? 'Tikshnagni (Intense Acid/Heat)' : 'Samagni (Balanced)'),
+    koshtha: symptoms.some(s => s.id === 'constipation') ? 'Krura Koshtha (Hard/Constipated)' : (symptoms.some(s => s.id === 'diarrhoea') ? 'Mridu Koshtha (Soft/Loose)' : 'Madhyama Koshtha (Normal)'),
+    sara: 'Madhyama Sara (Moderate Tissue Vitality)',
+    samhanana: 'Madhyama (Proportionate Body Build)',
+    pramana: 'Normal Physical Proportions',
+    satmya: 'Satmya (Accustomed to regular Indian diet)',
+    sattva: highSeverity ? 'Avara Sattva (Distressed/Sensitive)' : 'Madhyama Sattva (Moderate)',
+    aharaShakti: allAnswers['ayush.digestion'] || 'Madhyama (Moderate Appetite & Digestion)',
+    vyayamaShakti: symptoms.some(s => ['breathlessness', 'fatigue'].includes(s.id)) ? 'Avara (Reduced Endurance)' : 'Madhyama (Normal Endurance)',
+    vaya: 'Madhyama Vaya (Adult/Middle-aged)'
+  }
+
   return {
     engine: 'adaptive-rules-v2',
     symptoms: symptoms.map(item => item.en), symptomLabels,
     summary: symptomLabels.length ? symptomLabels.join(' · ') : (hi ? 'आपकी परेशानी की और जानकारी ली जा रही है' : 'Gathering more detail about your concern'),
     questions: localized, inferredAnswers,
     urgent: urgentReasons.length > 0, urgentReasons,
+    triageLevel,
+    tridosha,
+    dashavidha,
     complete: localized.every(question => String(allAnswers[question.id] ?? '').trim().length > 0),
   }
 }

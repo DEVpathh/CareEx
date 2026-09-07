@@ -25,3 +25,7 @@ export function getCases(): Promise<CaseDraft[]> {
 export function updateCase(caseId: string, update: Partial<CaseDraft>): Promise<CaseDraft> {
   return apiRequest<CaseDraft>(`/api/v1/cases/${encodeURIComponent(caseId)}`, { method: 'PATCH', body: JSON.stringify(update) })
 }
+
+export function getFhirBundle(caseId: string): Promise<any> {
+  return apiRequest(`/api/v1/cases/${encodeURIComponent(caseId)}/fhir`)
+}
