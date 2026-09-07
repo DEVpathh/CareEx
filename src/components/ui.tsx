@@ -1,0 +1,7 @@
+import type { ReactNode } from 'react'
+import { ArrowRight } from 'lucide-react'
+
+export const Card = ({ children, className = '' }: { children: ReactNode; className?: string }) => <section className={`care-card rounded-2xl border bg-white shadow-sm ${className}`}>{children}</section>
+export const Badge = ({ children, tone = 'blue' }: { children: ReactNode; tone?: 'orange'|'green'|'red'|'blue'|'stone' }) => <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold ${tone === 'green' ? 'bg-emerald-100 text-emerald-700' : tone === 'red' ? 'bg-red-100 text-red-700' : tone === 'blue' || tone === 'orange' ? 'bg-sky-100 text-sky-700' : 'bg-stone-100 text-stone-600'}`}>{children}</span>
+export const NextButton = ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => <button onClick={onClick} className="primary-button flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 font-bold text-white shadow-lg">{children}<ArrowRight size={17}/></button>
+export const SectionTitle = ({ eyebrow, title, description }: { eyebrow: string; title: string; description?: string }) => <div className="mb-6"><div className="brand-accent text-xs font-bold uppercase tracking-[.18em]">{eyebrow}</div><h1 className="mt-2 font-display text-3xl font-bold text-stone-900">{title}</h1>{description && <p className="mt-1 text-stone-500">{description}</p>}</div>

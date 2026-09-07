@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.npm-cache/
+.data/
+.env
+.env.*
+!.env.example
+*.local
+artifacts/
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
