@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Camera, Check, CheckCircle2, ChevronRight, ClipboardList, HeartPulse, LoaderCircle, Mic, MicOff, Pencil, QrCode, RotateCcw, ShieldAlert, UserRound, Volume2 } from 'lucide-react'
 import { BrandLogo } from '../../components/BrandLogo'
-import { analyseComplaint, lookupPatient, registerPatient, requestAttendant, scanDocument } from '../../services/patientService'
+import { analyseComplaint, lookupPatient, registerPatient, requestAttendant } from '../../services/patientService'
 import { saveConsent, submitCase } from '../../services/caseService'
 import { useKioskVoice } from '../../shared/hooks/useKioskVoice'
 import { DocumentScanner } from '../../components/DocumentScanner'
@@ -37,6 +37,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   const [analysis, setAnalysis] = useState<IntakeAnalysis | null>(null)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [answerDraft, setAnswerDraft] = useState('')
+  const [scanInProgress,setScanInProgress] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [method, setMethod] = useState<PatientLookupMethod>('manual')
@@ -44,6 +45,8 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
   const [sex, setSex] = useState<Patient['sex']>('other')
+  const [mobile,setMobile] = useState('')
+  const [smsConsent,setSmsConsent] = useState(false)
   const [patient, setPatient] = useState<Patient | null>(null)
   const [consents, setConsents] = useState<ConsentRecord['purposes']>({ casePreparation: false, priorRecords: false, careTeamSharing: false })
   const [submitted, setSubmitted] = useState<CaseDraft | null>(null)
@@ -52,7 +55,8 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   const requestVersion = useRef(0)
   const caseId = useRef(`case-${crypto.randomUUID()}`)
   const allAnswers = useMemo(() => ({ ...analysis?.inferredAnswers, ...answers }), [analysis, answers])
-  const currentQuestion = analysis?.questions.find(question => !allAnswers[question.id]?.trim())
+  const stopped = !!(analysis?.stopQuestionnaire || analysis?.urgent || analysis?.triageLevel === 'red' || analysis?.triageLevel === 'yellow')
+  const currentQuestion = stopped ? null : analysis?.questions.find(question => !allAnswers[question.id]?.trim())
   const answeredQuestions = analysis?.questions.filter(question => allAnswers[question.id]?.trim()) ?? []
   const complete = analysis?.complete && !currentQuestion
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null)
@@ -62,7 +66,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
     const version = ++requestVersion.current
     audio.stop(); setBusy(true); setError('')
     try {
-      const result = await analyseComplaint(text, ayush ? 'ayush' : 'general', language, nextAnswers)
+      const result = await analyseComplaint(text, ayush ? 'ayush' : 'general', language, nextAnswers, caseId.current)
       if (version !== requestVersion.current) return
       setAnalysis(result); setAnswers(nextAnswers); setAnswerDraft('')
     } catch { if (version === requestVersion.current) setError(t('सवाल तैयार नहीं हुए। कृपया फिर कोशिश करें। आपका जवाब सुरक्षित है।', 'Questions could not load. Please try again; your answer is still here.')) }
@@ -74,7 +78,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
     void runAnalysis({ ...answers, [currentQuestion.id]: value.trim() })
   }
   const onTranscript = (text: string) => {
-    if (busy || submitted || !active) return
+    if (busy || submitted || !active || stopped) return
     if (step === 0) {
       if (!analysis) { setComplaint(text); void runAnalysis({}, text) }
       else if (currentQuestion) {
@@ -88,7 +92,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
     }
   }
   const audio = useKioskVoice({ language, enabled: voice && active, onTranscript })
-  const prompt = submitted
+  const prompt = stopped ? analysis?.emergency?.message ?? t('सवाल रोक दिए गए हैं। अभी पास के स्टाफ को बुलाएं।', 'Questions have stopped. Please call nearby staff now.') : submitted
     ? t(`आपकी जानकारी डॉक्टर को भेज दी है। आपका टोकन ${submitted.token} है।`, `Your visit has been sent to the doctor. Your token is ${submitted.token}.`)
     : step === 0 ? !analysis ? t('हेलो, क्या समस्या है आपको?', 'Hello, what problem are you having?') : currentQuestion?.text ?? t('धन्यवाद। अब अपना नाम और उम्र बताएं।', 'Thank you. Next, add your name and age.')
     : step === 1 ? t('अपना नाम और उम्र बताएं, या अपना रिकॉर्ड खोजें।', 'Enter your name and age, or find your patient record.')
@@ -97,7 +101,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
 
   useEffect(() => {
     if (!config || busy || !active) return
-    const timer = window.setTimeout(() => audio.speak(prompt, step === 0 && (!analysis || !!currentQuestion)), 160)
+    const timer = window.setTimeout(() => audio.speak(prompt, !stopped && step === 0 && (!analysis || !!currentQuestion)), 160)
     return () => { clearTimeout(timer); audio.stop() }
   // The visible prompt drives speech; draft typing never restarts it.
   }, [prompt, voice, language, config, busy, active, audio.speak, audio.stop])
@@ -116,7 +120,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
     if (busy) return
     setBusy(true); setError(''); audio.stop()
     try {
-      const found = method === 'manual' ? await registerPatient({ displayName: name, age: Number(age), sex }) : await lookupPatient(identifier, method)
+      const found = method === 'manual' ? await registerPatient({ displayName: name, age: Number(age), sex, mobile, smsConsent }) : await lookupPatient(identifier, method)
       setPatient(found)
       if (method === 'manual') move(2)
     } catch { setError(method === 'manual' ? t('जानकारी सेव नहीं हुई। नाम और उम्र जांचकर फिर कोशिश करें।', 'Could not save your details. Check your name and age, then try again.') : t('रिकॉर्ड नहीं मिला। नंबर जांचें या नया मरीज़ चुनें।', 'No record found. Check the number or choose New patient.')) }
@@ -141,11 +145,11 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   }
 
   const finish = async () => {
-    if (!patient || !analysis || busy || submitted) return
+    if (!patient || !analysis || busy || submitted || scanInProgress) return
     setBusy(true); setError(''); audio.stop()
     try {
       const summary = analysis.questions.filter(question => allAnswers[question.id]).map(question => `${question.text} ${question.options?.find(option => option.value === allAnswers[question.id])?.label ?? allAnswers[question.id]}`).join('\n')
-      const result = await submitCase({ id: caseId.current, patientId: patient.id, status: 'draft', chiefComplaint: complaint, hpi: summary, pastHistory: allAnswers.history ?? '', drugAndAllergy: allAnswers.medicines ?? '', familyHistory: '', ros: analysis.summary, answers: allAnswers, uploadedDocuments, language, pathway: ayush ? 'ayush' : 'general', urgent: analysis.urgent })
+      const result = await submitCase({ id: caseId.current, patientId: patient.id, status: 'draft', chiefComplaint: complaint, hpi: summary, pastHistory: allAnswers.history ?? '', drugAndAllergy: allAnswers.medicines ?? '', familyHistory: '', ros: analysis.summary, answers: allAnswers, language, pathway: ayush ? 'ayush' : 'general', urgent: analysis.urgent, documentIds: consents.priorRecords ? uploadedDocuments.map(doc => doc.id) : [] })
       setSubmitted(result)
       setShowTokenModal(true)
     } catch { setError(t('जानकारी नहीं भेजी जा सकी। फिर कोशिश करें।', 'Your visit could not be sent. Please try again.')) }
@@ -153,7 +157,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   }
   const alertStaff = async () => {
     setAlertBusy(true)
-    try { const response = await requestAttendant(`${t('प्राथमिकता समीक्षा', 'Priority review')}: ${analysis?.urgentReasons.join(' ')}`, language, true); setAlertMessage(response.message) }
+    try { const response = await requestAttendant(`${t('प्राथमिकता समीक्षा', 'Priority review')}: ${patient?.displayName ?? ''} — ${complaint}. ${analysis?.urgentReasons.join(' ')}`, language, true); setAlertMessage(response.message) }
     catch { setAlertMessage(t('अनुरोध नहीं पहुंचा। अभी पास के स्टाफ को बुलाएं।', 'The request did not go through. Call nearby staff now.')) }
     finally { setAlertBusy(false) }
   }
@@ -165,6 +169,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
   const editComplaint = () => { audio.stop(); requestVersion.current += 1; setBusy(false); setAnalysis(null); setAnswers({}); setAnswerDraft(''); move(0) }
 
   if (!config) return <div className="loading-state" role="status"><LoaderCircle className="animate-spin" size={32}/>{t('तैयार हो रहा है…', 'Getting ready…')}</div>
+  if (stopped) return <section className="emergency-screen section-enter" role="alert"><ShieldAlert size={64}/><h1>{analysis?.emergency?.title ?? t('अभी स्टाफ की मदद लें', 'Please get staff assistance now')}</h1><p>{prompt}</p><button className="primary-button" disabled={alertBusy} onClick={alertStaff}>{t('स्टाफ को बुलाएं', 'Request staff assistance')}</button>{alertMessage && <p role="status">{alertMessage}</p>}<button className="secondary-button" onClick={onNewSession}>{t('अगला मरीज़', 'Next patient')}</button></section>
   const steps = [t('आपकी परेशानी', 'Your concern'), t('आपकी जानकारी', 'Your details'), t('आपकी अनुमति', 'Permissions'), t('रिपोर्ट स्कैन', 'Document Scan'), t('समीक्षा', 'Review')]
   const consentLabels: Record<keyof ConsentRecord['purposes'], string> = {
     casePreparation: t('मेरे जवाबों से आज की मुलाकात की जानकारी तैयार करें', 'Use my answers to prepare today’s visit'),
@@ -184,26 +189,7 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
           {!analysis ? <><div className="question-tag"><span>01</span>{t('यहीं से शुरू करें', 'Let’s start here')}</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' }}>
             <label htmlFor="complaint" className="question-title" style={{ margin: 0 }}>{t('क्या महसूस हो रहा है?', 'How are you feeling?')}</label>
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => {
-                const sampleText = 'मुझे २ दिन से सिर में दर्द है और चक्कर आ रहे हैं'
-                setComplaint(sampleText)
-                setName('Riya Sharma')
-                setAge('42')
-                setSex('female')
-                setIdentifier('14-23-45-67-89-01')
-                setMethod('abha')
-                scanDocument('Scanned_Prescription_QR.pdf', 'prescription', sampleText).then((doc: any) => handleAddDocument(doc as UploadedDocument))
-                void runAnalysis({}, sampleText)
-              }}
-              className="secondary-button"
-              style={{ padding: '0.35rem 0.75rem', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.4rem', border: '1px solid #0284c7', color: '#0284c7', background: '#f0f9ff', borderRadius: '8px', cursor: 'pointer' }}
-            >
-              <Camera size={16} />
-              <span>{hi ? '📷 पर्चा / QR स्कैन' : '📷 Scan QR / Record'}</span>
-            </button>
+
           </div>
           <p className="field-hint">{t('दर्द कहाँ है, कब से है, या कोई और परेशानी…', 'Where it hurts, when it started, or anything else…')}</p><textarea id="complaint" ref={node => { inputRef.current = node }} autoComplete="off" maxLength={5000} value={complaint} onFocus={audio.stop} onChange={event => setComplaint(event.target.value)} placeholder={t('जैसे: मुझे दो दिन से सिर में दर्द है…', 'For example: I have had a headache for two days…')}/><div className="example-chips">{[[t('सिरदर्द', 'Headache'), t('मुझे सिर में दर्द है', 'I have a headache')], [t('बुखार', 'Fever'), t('मुझे बुखार है', 'I have a fever')], [t('पेट दर्द', 'Stomach pain'), t('मेरे पेट में दर्द है', 'I have stomach pain')], [t('खाँसी', 'Cough'), t('मुझे खाँसी है', 'I have a cough')]].map(([label, value]) => <button key={label} disabled={busy} onClick={() => { setComplaint(value!); void runAnalysis({}, value!) }}>{label}</button>)}</div><div className="conversation-actions"><p>{t('आपका हर जवाब मायने रखता है।', 'Every detail helps us care for you.')}</p><button className="primary-button" disabled={complaint.trim().length < 3 || busy} onClick={() => void runAnalysis({})}>{busy ? <LoaderCircle className="animate-spin"/> : <ArrowRight/>}{t('आगे बढ़ें', 'Continue')}</button></div></>
           : currentQuestion ? <><div className="question-tag"><span>{String(answeredQuestions.length + 1).padStart(2, '0')}</span>{t('आपके लिए अगला सवाल', 'Your next question')}</div><h2 className="question-title" id="current-question">{currentQuestion.text}</h2><div className="question-answer" key={currentQuestion.id}>{currentQuestion.options ? <div className="answer-options">{currentQuestion.options.map(option => <button key={option.value} disabled={busy} onClick={() => answer(option.value)}>{option.label}<ChevronRight size={24}/></button>)}</div> : <form onSubmit={event => { event.preventDefault(); answer(answerDraft) }}>{currentQuestion.type === 'number' ? <><div className="severity-scale">{Array.from({ length: 11 }, (_, index) => <button type="button" disabled={busy} key={index} onClick={() => answer(String(index))}>{index}</button>)}</div><div className="severity-labels"><span>{t('कोई परेशानी नहीं', 'None')}</span><span>{t('सबसे अधिक', 'Worst')}</span></div></> : <textarea aria-labelledby="current-question" value={answerDraft} maxLength={5000} onFocus={audio.stop} onChange={event => setAnswerDraft(event.target.value)} placeholder={t('अपना जवाब यहां लिखें…', 'Enter your answer here…')}/>}{currentQuestion.type !== 'number' && <button className="primary-button" disabled={busy || !answerDraft.trim()} type="submit">{t('जवाब दें', 'Save answer')}{busy ? <LoaderCircle className="animate-spin"/> : <ArrowRight/>}</button>}</form>}</div><div className="context-note"><ClipboardList size={23}/><div><strong>{t('आपकी परेशानी', 'Your concern')}</strong><p>{complaint}</p></div></div><div className="question-footer"><span>{t(`${answeredQuestions.length} जवाब दर्ज हुए`, `${answeredQuestions.length} answers recorded`)}</span><button disabled={busy} onClick={editComplaint}><Pencil size={19}/>{t('परेशानी बदलें', 'Edit concern')}</button></div></>
@@ -212,10 +198,10 @@ export function PatientExperience({ config, language, voice, ayush, active, onNe
       </div>
       {analysis && answeredQuestions.length > 0 && <details className="answer-history"><summary>{t('आपके दर्ज जवाब', 'Your recorded answers')} <span>{answeredQuestions.length}</span></summary>{answeredQuestions.map(question => <div className="history-row" key={question.id}><div><p>{question.text}</p><strong>{question.options?.find(option => option.value === allAnswers[question.id])?.label ?? allAnswers[question.id]}</strong>{analysis.inferredAnswers[question.id] && !answers[question.id] && <span className="inferred-note">{t('आपकी बताई परेशानी से', 'From your description')}</span>}</div><button disabled={busy} aria-label={t('जवाब बदलें', 'Edit answer')} onClick={() => analysis.inferredAnswers[question.id] ? editComplaint() : editAnswer(question)}><Pencil size={21}/></button></div>)}</details>}
     </>
-    : step === 1 ? <section className="flow-card section-enter"><p className="eyebrow">{t('आपसे परिचय', 'A little about you')}</p><h1>{t('आपकी जानकारी', 'Your details')}</h1><div className="identity-options">{(['manual', 'abha', 'aadhaar'] as PatientLookupMethod[]).map(option => <button key={option} aria-pressed={method === option} className={method === option ? 'selected' : ''} onClick={() => { setMethod(option); setPatient(null); setError(''); audio.stop() }}>{option === 'manual' ? t('नया मरीज़', 'New patient') : option === 'abha' ? t('आभा आईडी', 'ABHA ID') : t('आधार', 'Aadhaar')}</button>)}</div><form onSubmit={event => { event.preventDefault(); void identify() }}>{method === 'manual' ? <div className="patient-fields"><label>{t('पूरा नाम', 'Full name')}<input required minLength={2} maxLength={120} value={name} onChange={event => setName(event.target.value)} autoComplete="off"/></label><div className="field-grid"><label>{t('उम्र (वर्ष)', 'Age (years)')}<input required type="number" min={0} max={120} value={age} onChange={event => setAge(event.target.value)}/></label><label>{t('लिंग', 'Sex')}<select value={sex} onChange={event => setSex(event.target.value as Patient['sex'])}><option value="other">{t('अन्य / नहीं बताना चाहते', 'Other / prefer not to say')}</option><option value="female">{t('महिला', 'Female')}</option><option value="male">{t('पुरुष', 'Male')}</option></select></label></div></div> : <label className="patient-fields">{method === 'abha' ? t('आभा आईडी', 'ABHA ID') : t('आधार नंबर', 'Aadhaar number')}<input required value={identifier} onChange={event => setIdentifier(event.target.value)} inputMode="numeric" autoComplete="off"/><p className="field-hint">{t('रिकॉर्ड न मिले तो नया मरीज़ चुनें।', 'Choose New patient if your record is unavailable.')}</p></label>}{patient && method !== 'manual' && <div className="patient-match"><UserRound/><div><strong>{patient.displayName}</strong><p>{patient.age} {t('वर्ष', 'years')} · {patient.opd}</p></div><button type="button" className="primary-button" onClick={() => move(2)}>{t('यह मैं हूँ', 'This is me')}<Check/></button></div>}<div className="flow-actions"><button type="button" className="secondary-button" onClick={() => move(0)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button type="submit" className="primary-button" disabled={busy}>{busy ? <LoaderCircle className="animate-spin"/> : <ArrowRight/>}{method === 'manual' ? t('जानकारी सेव करें', 'Save details') : t('रिकॉर्ड खोजें', 'Find record')}</button></div></form></section>
+    : step === 1 ? <section className="flow-card section-enter"><p className="eyebrow">{t('आपसे परिचय', 'A little about you')}</p><h1>{t('आपकी जानकारी', 'Your details')}</h1><div className="identity-options">{(['manual', 'abha', 'aadhaar'] as PatientLookupMethod[]).map(option => <button key={option} aria-pressed={method === option} className={method === option ? 'selected' : ''} onClick={() => { setMethod(option); setPatient(null); setError(''); audio.stop() }}>{option === 'manual' ? t('नया मरीज़', 'New patient') : option === 'abha' ? t('आभा आईडी', 'ABHA ID') : t('आधार', 'Aadhaar')}</button>)}</div><form onSubmit={event => { event.preventDefault(); void identify() }}>{method === 'manual' ? <div className="patient-fields"><label>{t('पूरा नाम', 'Full name')}<input required minLength={2} maxLength={120} value={name} onChange={event => setName(event.target.value)} autoComplete="off"/></label><div className="field-grid"><label>{t('उम्र (वर्ष)', 'Age (years)')}<input required type="number" min={0} max={120} value={age} onChange={event => setAge(event.target.value)}/></label><label>{t('लिंग', 'Sex')}<select value={sex} onChange={event => setSex(event.target.value as Patient['sex'])}><option value="other">{t('अन्य / नहीं बताना चाहते', 'Other / prefer not to say')}</option><option value="female">{t('महिला', 'Female')}</option><option value="male">{t('पुरुष', 'Male')}</option></select></label></div><label>{t('मोबाइल नंबर (फॉलो-अप SMS के लिए)', 'Mobile number (for follow-up SMS)')}<input type="tel" value={mobile} onFocus={audio.stop} onChange={event => setMobile(event.target.value)} autoComplete="tel" placeholder="+91"/></label><label className="record-check"><input type="checkbox" checked={smsConsent} onChange={event => setSmsConsent(event.target.checked)}/>{t('इस नंबर पर फॉलो-अप का SMS भेज सकते हैं।', 'I agree to follow-up SMS on this number.')}</label></div> : <label className="patient-fields">{method === 'abha' ? t('आभा आईडी', 'ABHA ID') : t('आधार नंबर', 'Aadhaar number')}<input required value={identifier} onChange={event => setIdentifier(event.target.value)} inputMode="numeric" autoComplete="off"/><p className="field-hint">{t('रिकॉर्ड न मिले तो नया मरीज़ चुनें।', 'Choose New patient if your record is unavailable.')}</p></label>}{patient && method !== 'manual' && <div className="patient-match"><UserRound/><div><strong>{patient.displayName}</strong><p>{patient.age} {t('वर्ष', 'years')} · {patient.opd}</p></div><button type="button" className="primary-button" onClick={() => move(2)}>{t('यह मैं हूँ', 'This is me')}<Check/></button></div>}<div className="flow-actions"><button type="button" className="secondary-button" onClick={() => move(0)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button type="submit" className="primary-button" disabled={busy}>{busy ? <LoaderCircle className="animate-spin"/> : <ArrowRight/>}{method === 'manual' ? t('जानकारी सेव करें', 'Save details') : t('रिकॉर्ड खोजें', 'Find record')}</button></div></form></section>
     : step === 2 ? <section className="flow-card section-enter"><p className="eyebrow">{t('फैसला आपका', 'Your choice')}</p><h1>{t('आपकी अनुमति', 'Your permissions')}</h1><p>{t('इन विकल्पों को पढ़ें और अपनी अनुमति दें।', 'Read each option and choose what you agree to.')}</p><div className="consent-options">{config.consentPurposes.map(item => <label key={item.id}><input type="checkbox" checked={consents[item.id]} onChange={event => setConsents(current => ({ ...current, [item.id]: event.target.checked }))}/><span>{consentLabels[item.id]}{item.id === 'priorRecords' && <small>{t('वैकल्पिक', 'Optional')}</small>}</span></label>)}</div><button className="secondary-button" disabled={!voice} onClick={() => audio.speak(Object.values(consentLabels).join('। '), false)}><Volume2/>{t('विकल्प सुनें', 'Hear these choices')}</button>{(!consents.casePreparation || !consents.careTeamSharing) && <p className="consent-hint">{t('डॉक्टर को जानकारी भेजने के लिए पहला और तीसरा विकल्प ज़रूरी है। सहमत नहीं हैं तो स्टाफ से सीधे चेक-इन में मदद लें।', 'Preparing and sharing your visit needs the first and third permissions. If you prefer, staff can help you check in directly.')}</p>}<div className="flow-actions"><button className="secondary-button" onClick={() => move(1)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button className="primary-button" disabled={busy || !consents.casePreparation || !consents.careTeamSharing} onClick={confirmConsent}>{t('अनुमति सेव करें', 'Save permissions')}{busy ? <LoaderCircle className="animate-spin"/> : <ArrowRight/>}</button></div></section>
-    : step === 3 ? <section className="flow-card section-enter"><p className="eyebrow">{t('दस्तावेज़ जोड़ें', 'Attach Records')}</p><h1>{t('पुरानी रिपोर्ट या पर्चे', 'Prior Prescriptions & Lab Reports')}</h1><DocumentScanner language={language} documents={uploadedDocuments} onAddDocument={handleAddDocument} onRemoveDocument={handleRemoveDocument} /><div className="flow-actions"><button className="secondary-button" onClick={() => move(2)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button className="primary-button" onClick={() => move(4)}>{t('समीक्षा करें', 'Review & Submit')}<ArrowRight/></button></div></section>
-    : <section className="flow-card review-card section-enter"><p className="eyebrow">{t('डॉक्टर के लिए तैयार', 'Ready for your doctor')}</p><h1>{t('एक बार जांच लें', 'Take a moment to review')}</h1><div className="review-grid"><div><span>{t('मरीज़', 'Patient')}</span><strong>{patient?.displayName}</strong><p>{patient?.age} {t('वर्ष', 'years')}</p><button onClick={() => move(1)}><Pencil size={19}/>{t('बदलें', 'Edit')}</button></div><div><span>{t('मुख्य परेशानी', 'Main concern')}</span><strong>{complaint}</strong><p>{analysis?.summary}</p><button onClick={() => move(0)}><Pencil size={19}/>{t('जवाब देखें', 'Review answers')}</button></div></div><details className="answer-history"><summary>{t('सभी जवाब देखें', 'See all answers')}</summary>{analysis?.questions.map(question => <div key={question.id} className="history-row"><div><p>{question.text}</p><strong>{question.options?.find(option => option.value === allAnswers[question.id])?.label ?? allAnswers[question.id]}</strong></div></div>)}</details><DocumentScanner language={language} documents={uploadedDocuments} onAddDocument={handleAddDocument} onRemoveDocument={handleRemoveDocument} /><p className="records-note">{t('पुरानी रिपोर्ट या दवाएं साथ लाए हैं तो डॉक्टर को दिखाएं।', 'If you have earlier reports or medicines, show them to your doctor.')}</p><div className="flow-actions"><button className="secondary-button" disabled={busy} onClick={() => move(3)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button className="primary-button" disabled={busy} onClick={finish}>{busy ? <LoaderCircle className="animate-spin"/> : <CheckCircle2/>}{t('डॉक्टर को भेजें और टोकन लें', 'Send to doctor & get token')}</button></div></section>}
+    : step === 3 ? <section className="flow-card section-enter"><p className="eyebrow">{t('दस्तावेज़ जोड़ें', 'Attach Records')}</p><h1>{t('पुरानी रिपोर्ट या पर्चे', 'Prior Prescriptions & Lab Reports')}</h1>{consents.priorRecords && patient ? <DocumentScanner onBusyChange={setScanInProgress} patientId={patient.id} active={active} language={language} documents={uploadedDocuments} onAddDocument={handleAddDocument} onRemoveDocument={handleRemoveDocument}/> : <p>{t('रिपोर्ट स्कैन करने के लिए पिछली स्क्रीन पर पुरानी रिपोर्ट की अनुमति दें।', 'To scan records, enable prior-record permission on the previous screen.')}</p>}<div className="flow-actions"><button className="secondary-button" onClick={() => move(2)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button className="primary-button" disabled={scanInProgress} onClick={() => move(4)}>{t('समीक्षा करें', 'Review & Submit')}<ArrowRight/></button></div></section>
+    : <section className="flow-card review-card section-enter"><p className="eyebrow">{t('डॉक्टर के लिए तैयार', 'Ready for your doctor')}</p><h1>{t('एक बार जांच लें', 'Take a moment to review')}</h1><div className="review-grid"><div><span>{t('मरीज़', 'Patient')}</span><strong>{patient?.displayName}</strong><p>{patient?.age} {t('वर्ष', 'years')}</p><button onClick={() => move(1)}><Pencil size={19}/>{t('बदलें', 'Edit')}</button></div><div><span>{t('मुख्य परेशानी', 'Main concern')}</span><strong>{complaint}</strong><p>{analysis?.summary}</p><button onClick={() => move(0)}><Pencil size={19}/>{t('जवाब देखें', 'Review answers')}</button></div></div><details className="answer-history"><summary>{t('सभी जवाब देखें', 'See all answers')}</summary>{analysis?.questions.map(question => <div key={question.id} className="history-row"><div><p>{question.text}</p><strong>{question.options?.find(option => option.value === allAnswers[question.id])?.label ?? allAnswers[question.id]}</strong></div></div>)}</details><p className="records-note">{t('पुरानी रिपोर्ट या दवाएं साथ लाए हैं तो डॉक्टर को दिखाएं।', 'If you have earlier reports or medicines, show them to your doctor.')}</p><div className="flow-actions"><button className="secondary-button" disabled={busy} onClick={() => move(3)}><ArrowLeft/>{t('पीछे', 'Back')}</button><button className="primary-button" disabled={busy || scanInProgress} onClick={finish}>{busy ? <LoaderCircle className="animate-spin"/> : <CheckCircle2/>}{t('डॉक्टर को भेजें और टोकन लें', 'Send to doctor & get token')}</button></div></section>}
     {!submitted && <div className="session-actions"><button onClick={() => { audio.stop(); onNewSession() }}><RotateCcw size={20}/>{t('सत्र समाप्त करें', 'End session')}</button></div>}
     {submitted && showTokenModal && <TokenReceiptModal caseData={submitted} language={language} onClose={() => { setShowTokenModal(false); onNewSession() }} />}
   </div>

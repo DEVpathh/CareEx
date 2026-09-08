@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test'
+import { test, expect, type Page, type Locator } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
   // Exercise the browser speech event lifecycle without physical microphones or cloud speech.
@@ -34,21 +34,27 @@ async function mute(page: Page) { await page.getByRole('button', { name: 'आव
 async function english(page: Page) { await page.getByRole('combobox', { name: 'Language / भाषा' }).selectOption('English') }
 
 async function completeQuestions(page: Page) {
-  for (let index = 0; index < 35; index++) {
-    if (await page.getByRole('button', { name: 'Add name and age', exact: true }).isVisible()) return
+  const submitAnswer = async (button: Locator) => {
+    // Register the listener first: a fast API can respond before click() returns.
+    await Promise.all([
+      page.waitForResponse(response => response.url().includes('/intake/questions') && response.status() === 200, { timeout: 8000 }),
+      button.click(),
+    ])
     await expect(page.locator('.conversation-card')).toHaveAttribute('aria-busy', 'false')
+  }
+  for (let index = 0; index < 35; index++) {
+    await expect(page.locator('.conversation-card')).toHaveAttribute('aria-busy', 'false')
+    if (await page.getByRole('button', { name: 'Add name and age', exact: true }).isVisible()) return
     const choices = page.locator('.answer-options button')
     if (await choices.count()) {
       const no = page.locator('.answer-options').getByRole('button', { name: 'No', exact: true })
-      await (await no.count() ? no : choices.first()).click()
-    } else if (await page.locator('.severity-scale').isVisible()) await page.locator('.severity-scale').getByRole('button', { name: '4', exact: true }).click()
-    else {
-      const input = page.locator('.question-answer textarea')
-      if (!await input.isVisible()) { await page.waitForTimeout(150); continue }
-      await input.fill('No other issues')
-      await page.getByRole('button', { name: 'Save answer', exact: true }).click()
+      await submitAnswer(await no.count() ? no : choices.first())
+    } else if (await page.locator('.severity-scale').isVisible()) {
+      await submitAnswer(page.locator('.severity-scale').getByRole('button', { name: '4', exact: true }))
+    } else {
+      await page.locator('.question-answer textarea').fill('No other issues')
+      await submitAnswer(page.getByRole('button', { name: 'Save answer', exact: true }))
     }
-    await page.waitForResponse(response => response.url().includes('/intake/questions') && response.status() === 200).catch(() => {})
   }
   throw new Error('Intake did not finish')
 }
@@ -114,6 +120,7 @@ test('patient completes intake, receives a token, and doctor edits persist after
   await page.getByLabel('Use my answers to prepare today’s visit', { exact: true }).check()
   await page.getByLabel('Share my visit summary with the care team', { exact: true }).check()
   await page.getByRole('button', { name: 'Save permissions', exact: true }).click()
+  await page.getByRole('button', { name: 'Review & Submit', exact: true }).click()
   await page.getByRole('button', { name: 'Send to doctor & get token', exact: true }).click()
   await expect(page.locator('.token-card strong')).toHaveText(/A-\d+/)
   await page.getByRole('button', { name: 'Doctor', exact: true }).click()
@@ -159,9 +166,9 @@ test('urgent answers remain visible and an actual help request appears for staff
   await page.locator('#complaint').fill('Chest pain for 2 hours')
   await page.getByRole('button', { name: 'Continue', exact: true }).click()
   await page.locator('.answer-options').getByRole('button', { name: 'Yes', exact: true }).click()
-  await expect(page.locator('.urgent-banner')).toContainText('Please call nearby staff now')
-  await page.getByRole('button', { name: 'Request help', exact: true }).click()
-  await expect(page.locator('.urgent-banner')).toContainText('Your help request is in the staff queue')
+  await expect(page.locator('.emergency-screen')).toContainText('Please get staff assistance now')
+  await page.getByRole('button', { name: 'Request staff assistance', exact: true }).click()
+  await expect(page.locator('.emergency-screen')).toContainText('Your help request is in the staff queue')
   await page.getByRole('button', { name: 'Staff', exact: true }).click()
   await expect(page.locator('.staff-request').first()).toContainText('Priority review')
 })

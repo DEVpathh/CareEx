@@ -8,6 +8,8 @@ export interface Patient {
   age: number
   sex: 'female' | 'male' | 'other'
   opd: string
+  mobile?: string | null
+  smsConsent?: boolean
   verified: boolean
 }
 
@@ -53,19 +55,9 @@ export interface LabExtraction {
   isAbnormal: boolean
 }
 
-export interface UploadedDocument {
-  id: string
-  fileName: string
-  fileType: 'prescription' | 'lab_report' | 'discharge_summary'
-  uploadedAt: string
-  extractedText: string
-  extractedMedicines?: string[]
-  extractedDiagnoses?: string[]
-  extractedLabs?: LabExtraction[]
-  hasAbnormalValues?: boolean
-}
-
 export interface CaseDraft {
+  documentIds?: string[]
+  stopQuestionnaire?: boolean
   id: string
   patientId: string
   status: 'draft' | 'submitted' | 'approved' | 'rejected'
@@ -134,6 +126,9 @@ export interface IntakeQuestion {
 }
 
 export interface IntakeAnalysis {
+  nextQuestion?: IntakeQuestion | null
+  emergency?: {title:string;message:string;actionLabel:string} | null
+  stopQuestionnaire?: boolean
   symptoms: string[]
   summary: string
   questions: IntakeQuestion[]
@@ -147,3 +142,19 @@ export interface IntakeAnalysis {
   complete: boolean
   engine: string
 }
+
+export interface UploadedDocument {
+ id: string
+ fileName: string
+ fileType: 'prescription' | 'lab_report' | 'discharge_summary' | 'other'
+ uploadedAt: string
+ extractedText: string
+ documentDate: string | null
+ dateCandidates: {date:string;source:string}[]
+ abbreviations: {abbreviation:string;candidates:string[];requiresConfirmation:boolean}[]
+ units: string[]
+ reviewed: boolean
+ ocrStatus: 'processing' | 'ready' | 'needs_review'
+ ocrMessage?: string
+}
+export interface Followup { id:string;date:string;time:string;status:string;sendAt:string }
