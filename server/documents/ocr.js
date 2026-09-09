@@ -24,7 +24,7 @@ export function createOcr({ env = process.env, fetchImpl = fetch } = {}) {
         const data = (await response.json()).responses?.[0]
         if (!data || data.error) throw new Error('Cloud OCR could not read this scan.')
         const annotation = data.fullTextAnnotation
-        const lines = annotation?.pages?.flatMap(page => page.blocks?.flatMap(block => block.paragraphs?.map(p => ({ text: p.words?.map(w => w.symbols?.map(s => s.text).join('')).join(' '), confidence: p.confidence ?? 0 })) ?? []) ?? []) ?? []
+        const lines = annotation?.pages?.flatMap(page => page.blocks?.flatMap(block => block.paragraphs?.map(p => ({ text: p.words?.map(w => w.symbols?.map(s => s.text).join('')).join(' '), confidence: p.confidence ?? null, words: p.words?.map(w => ({ text: w.symbols?.map(s => s.text).join('') ?? '', confidence: w.confidence ?? null })) })) ?? []) ?? []) ?? []
         return { text: annotation?.text ?? '', lines, provider: 'google-vision', languages: [] }
       }
       if (process.platform !== 'darwin') throw new Error('OCR is not configured. The camera scan can still be saved for doctor review.')

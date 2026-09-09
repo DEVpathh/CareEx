@@ -10,10 +10,10 @@ export function getPatientExperience(): Promise<PatientExperienceConfig> {
   return apiRequest<PatientExperienceConfig>(appRoutes.patientExperience)
 }
 
-export function analyseComplaint(complaint: string, pathway: 'general' | 'ayush', language: string, answers: Record<string, string> = {}, sessionId?: string): Promise<IntakeAnalysis> {
+export function analyseComplaint(complaint: string, pathway: 'general' | 'ayush', language: string, answers: Record<string, string> = {}, sessionId?: string, bodyLocations: string[] = []): Promise<IntakeAnalysis> {
   return apiRequest<IntakeAnalysis>(appRoutes.symptomQuestions, {
     method: 'POST',
-    body: JSON.stringify({ complaint, pathway, language, answers, sessionId }),
+    body: JSON.stringify({ complaint, pathway, language, answers, sessionId, bodyLocations }),
   })
 }
 

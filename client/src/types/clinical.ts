@@ -56,6 +56,8 @@ export interface LabExtraction {
 }
 
 export interface CaseDraft {
+  bodyLocations?: string[]
+  followupDecision?: {needed:boolean;date:string|null;recordedAt:string}
   documentIds?: string[]
   stopQuestionnaire?: boolean
   id: string
@@ -126,6 +128,8 @@ export interface IntakeQuestion {
 }
 
 export interface IntakeAnalysis {
+  bodyLocations?: string[]
+  complaint?: string
   nextQuestion?: IntakeQuestion | null
   emergency?: {title:string;message:string;actionLabel:string} | null
   stopQuestionnaire?: boolean
@@ -144,6 +148,9 @@ export interface IntakeAnalysis {
 }
 
 export interface UploadedDocument {
+ elements?: OcrElement[]
+ confidenceThreshold?: number
+ version?: number
  id: string
  fileName: string
  fileType: 'prescription' | 'lab_report' | 'discharge_summary' | 'other'
@@ -157,4 +164,7 @@ export interface UploadedDocument {
  ocrStatus: 'processing' | 'ready' | 'needs_review'
  ocrMessage?: string
 }
-export interface Followup { id:string;date:string;time:string;status:string;sendAt:string }
+export interface Followup { id:string;date:string;time?:string;status:string;sendAt:string }
+
+export interface OcrElement { id:string;kind:string;value:string;originalValue:string;confidence:number|null;confidenceBasis:string;requiresAssurance:boolean;reason?:string|null;candidates?:string[];assurance?:{confirmed:boolean;confirmedAt:string}|null }
+export interface BodyLocation {id:string;en:string;hi:string}

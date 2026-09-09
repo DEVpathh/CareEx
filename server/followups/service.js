@@ -41,14 +41,15 @@ export function mountFollowups(app, { followups, patients, cases, persist, sms, 
           try { const status = await sms.status(job.providerId); if (['delivered','undelivered','failed','sent'].includes(status)) { job.status = status; persist() } } catch { /* Keep the known state until the next poll. */ }
           continue
         }
-        if (!['scheduled','blocked','retry'].includes(job.status) || Date.parse(job.sendAt) > now().getTime() || Date.parse(job.retryAt ?? job.sendAt) > now().getTime()) continue
+        if (!['scheduled','blocked','awaiting_contact','retry'].includes(job.status) || Date.parse(job.sendAt) > now().getTime() || Date.parse(job.retryAt ?? job.sendAt) > now().getTime()) continue
         if (job.date !== indiaDate(now())) { job.status = 'missed'; persist(); continue }
         const patient = [...patients.values()].find(p => p.id === job.patientId)
-        if (cases.get(job.caseId)?.status !== 'approved' || !patient?.smsConsent || !patient.mobile) { job.status = 'cancelled'; persist(); continue }
+        if (cases.get(job.caseId)?.status !== 'approved') { job.status = 'cancelled'; persist(); continue }
+        if (!patient?.smsConsent || !patient.mobile) { job.status = 'awaiting_contact'; persist(); continue }
         if (!sms.configured) { job.status = 'blocked'; persist(); continue }
         job.status = 'sending'; job.attempts += 1; persist()
         try {
-          const body = /Hindi|हिन्दी|हिंदी|^hi/i.test(job.language ?? '') ? `आज ${job.time} बजे आपका क्लिनिक फॉलो-अप है। कृपया अपनी रिपोर्ट साथ लाएं। - CareX` : `Your clinic follow-up is today at ${job.time} IST. Please bring your records. - CareX`
+          const body = /Hindi|हिन्दी|हिंदी|^hi/i.test(job.language ?? '') ? 'आज आपका क्लिनिक फॉलो-अप है। कृपया अपनी रिपोर्ट साथ लाएं। - CareX' : 'Your clinic follow-up is today. Please bring your records. - CareX'
           const result = await sms.send(patient.mobile, body)
           job.providerId = result.id; job.status = ['delivered','sent','failed','undelivered'].includes(result.status) ? result.status : 'accepted'; job.sentAt = now().toISOString()
         } catch (error) {
@@ -72,24 +73,28 @@ export function mountFollowups(app, { followups, patients, cases, persist, sms, 
   })
   app.get('/api/v1/cases/:caseId/followup', (req, res) => res.json(envelope([...followups.values()].filter(j => j.caseId === req.params.caseId).sort((a,b) => b.createdAt.localeCompare(a.createdAt)))))
   app.post('/api/v1/cases/:caseId/followup', (req, res) => {
-    const current = cases.get(req.params.caseId), { date, time = '10:00', version } = req.body ?? {}
+    const current = cases.get(req.params.caseId), { date, needed = true, version } = req.body ?? {}
     if (!current) return res.status(404).json({ message: 'Case not found.' })
     if (current.status !== 'approved') return res.status(409).json({ message: 'Accept the patient’s case before scheduling a follow-up.' })
     if (current.version !== version) return res.status(409).json({ message: 'Reload this case before scheduling.' })
     const patient = [...patients.values()].find(p => p.id === current.patientId)
-    if (!patient?.mobile || !patient.smsConsent) return res.status(400).json({ message: 'Register the patient’s mobile and SMS consent first.' })
-    if (!validDate(date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time) || Date.parse(`${date}T${time}:00+05:30`) <= now().getTime()) return res.status(400).json({ message: 'Choose a future follow-up date and time (India time).' })
+    if (typeof needed !== 'boolean') return res.status(400).json({ message: 'Choose whether follow-up is needed.' })
+    if (needed && (!validDate(date) || date < indiaDate(now()))) return res.status(400).json({ message: 'Choose today or a future follow-up date.' })
     if ([...followups.values()].some(j => j.caseId === current.id && j.status === 'sending')) return res.status(409).json({ message: 'A reminder is being sent. Retry after its status updates.' })
-    for (const job of followups.values()) if (job.caseId === current.id && ['scheduled','retry','blocked'].includes(job.status)) job.status = 'cancelled'
-    const reminderTime = time < '09:00' ? time : '09:00'
-    const job = { id: `followup-${randomUUID()}`, caseId: current.id, patientId: patient.id, date, time, timeZone: 'Asia/Kolkata', sendAt: new Date(Math.max(Date.parse(`${date}T${reminderTime}:00+05:30`), now().getTime())).toISOString(), status: sms.configured ? 'scheduled' : 'blocked', language: current.language, attempts: 0, createdAt: now().toISOString() }
-    followups.set(job.id, job); cases.set(current.id, { ...current, version: current.version + 1 }); persist()
+    for (const job of followups.values()) if (job.caseId === current.id && ['scheduled','retry','blocked','awaiting_contact'].includes(job.status)) job.status = 'cancelled'
+    const decision = { needed, date: needed ? date : null, recordedAt: now().toISOString() }
+    if (!needed) {
+      cases.set(current.id, { ...current, followupDecision: decision, version: current.version + 1 }); persist()
+      return res.json(envelope(decision))
+    }
+    const job = { id: `followup-${randomUUID()}`, caseId: current.id, patientId: patient.id, date, timeZone: 'Asia/Kolkata', sendAt: new Date(Math.max(Date.parse(`${date}T09:00:00+05:30`), now().getTime())).toISOString(), status: !patient.mobile || !patient.smsConsent ? 'awaiting_contact' : sms.configured ? 'scheduled' : 'blocked', language: current.language, attempts: 0, createdAt: now().toISOString() }
+    followups.set(job.id, job); cases.set(current.id, { ...current, followupDecision: decision, version: current.version + 1 }); persist()
     res.status(201).json(envelope(job))
   })
   app.delete('/api/v1/cases/:caseId/followup/:id', (req, res) => {
     const job = followups.get(req.params.id)
     if (!job || job.caseId !== req.params.caseId) return res.status(404).json({ message: 'Follow-up not found.' })
-    if (!['scheduled','retry','blocked'].includes(job.status)) return res.status(409).json({ message: 'This reminder can no longer be cancelled.' })
+    if (!['scheduled','retry','blocked','awaiting_contact'].includes(job.status)) return res.status(409).json({ message: 'This reminder can no longer be cancelled.' })
     job.status = 'cancelled'; persist(); res.json(envelope(job))
   })
 }

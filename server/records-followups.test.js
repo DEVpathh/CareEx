@@ -69,7 +69,7 @@ test('triage suppresses every question and remains stopped across pathway change
 })
 test('follow-up only after acceptance; sends once on India date to registered mobile; delivered survives restart',async()=>{
   const dir=mkdtempSync(join(tmpdir(),'carex-followup-test-')),storagePath=join(dir,'store.json');let clock=new Date('2026-09-09T10:00:00Z'),calls=0,caseId
-  const sms={configured:true,send:async(to,body)=>{calls++;assert.equal(to,'+15555550123');assert.match(body,/10:00/);assert.doesNotMatch(body,/headache|Camera Test/);return{id:'test-message',status:'queued'}},status:async()=> 'delivered'}
+  const sms={configured:true,send:async(to,body)=>{calls++;assert.equal(to,'+15555550123');assert.doesNotMatch(body,/10:00|IST/);assert.doesNotMatch(body,/headache|Camera Test/);return{id:'test-message',status:'queued'}},status:async()=> 'delivered'}
   try{await serve({storagePath,sms,now:()=>clock},async(req,app)=>{
     const p=await patient(req);let c=await visit(req,p);caseId=c.id
     assert.equal((await req(`/cases/${c.id}/followup`,{date:'2026-09-10',time:'10:00',version:c.version})).status,409)

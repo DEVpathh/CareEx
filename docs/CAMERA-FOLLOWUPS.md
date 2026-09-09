@@ -16,9 +16,9 @@ Dates are candidates, not automatic chronology: numeric day/month ambiguity is r
 
 ## Follow-up SMS
 
-Register the patient's mobile number and their follow-up SMS consent at new-patient registration. For existing records, the doctor can register the contact and consent in the follow-up panel. Accept the case, choose a future follow-up date and time in **Asia/Kolkata**, then save. Scheduling reads the patient record; callers cannot override the recipient on a reminder request.
+Register the patient's mobile number and their follow-up SMS consent at new-patient registration. Accept the case, answer **Does the patient need a follow-up?** with Yes or No. Yes requires only a date (today or later); there is no doctor phone or time input. No cancels pending reminders. Missing registered contact/consent saves the decision with `awaiting_contact`; registration must supply these before delivery. Scheduling reads the patient record; callers cannot override the recipient on a reminder request.
 
-The backend stores the reminder durably and checks due work on startup and every 60 seconds. The reminder is due at 09:00 India time on the follow-up day, or at the visit time if earlier. If scheduled later on that same day, it becomes due immediately. Run one backend process against a persistent `CAREX_DATA_PATH`, and keep it running on the follow-up day. Do not run multiple backend processes against the same JSON store. For multiple server replicas, replace this local store with a transactional job queue and shared database before deployment.
+The backend stores the reminder durably and checks due work on startup and every 60 seconds. The reminder is due at 09:00 India time on the follow-up day. This is a delivery time, not an appointment time; the SMS contains no appointment time. If scheduled later on that same day, it becomes due immediately. Run one backend process against a persistent `CAREX_DATA_PATH`, and keep it running on the follow-up day. Do not run multiple backend processes against the same JSON store. For multiple server replicas, replace this local store with a transactional job queue and shared database before deployment.
 
 Set these backend-only environment variables:
 
@@ -45,3 +45,23 @@ The existing app is a local prototype with role-switch navigation, not authentic
 ## Verification
 
 `npm test` in the backend runs API, date ambiguity, real-image-input contract, OCR-failure, document ownership/consent, persisted chronology, triage latch, scheduled SMS, rescheduling, missing-provider and uncertain-delivery checks. Browser tests include camera capture and track cleanup, document review, doctor's timeline, follow-up scheduling/cancellation and red/yellow interruption. Printed OCR is separately checked against a synthetic image; no clinical handwriting accuracy claim follows from those tests.
+
+## Per-entry OCR review
+
+Every extracted token and date candidate carries the OCR engine's confidence where available. Google word scores are retained; Apple line scores are inherited and labelled as line-level evidence. Missing confidence displays a dash, never an invented percentage. `OCR_REVIEW_THRESHOLD=85` is the default backend threshold. Lower scores, missing evidence, ambiguous abbreviations and ambiguous dates are highlighted for doctor assurance; other entries display the value and score.
+
+The doctor can confirm or correct an individual entry. The original value, source score and dated assurance remain recorded; confirming an entry does not turn its confidence into 100%. Optimistic document versions reject stale edits. These recognition scores are not calibrated clinical certainty or medicine/dosage accuracy.
+
+## Touchable body map
+
+The first concern page (after login in the independent frontend) includes clothed front/back figures, large touch labels and a Next button. Children can select multiple regions without typing. Mobile uses Front/Back tabs. Left/right labels describe the patient's side. Labels and canonical complaint mapping come from `/api/v1/body-map` and backend `body-map.js`; frontend geometry contains no questionnaires. Selected IDs are included in analysis and saved in the doctor's case. Emergency interruption still takes precedence over every question.
+
+## Local hand controls
+
+Animated tap guidance accompanies the body map. Optional camera controls use MediaPipe's pretrained gesture recognizer in a worker: point at a region and hold thumbs-up to select; thumbs-up/down proposes Yes/No when those answers exist; an open palm pauses. A proposed clinical answer requires explicit confirmation before submission. Camera tracks stop when leaving the patient screen, hiding the page or entering triage.
+
+This is a limited gesture interface, not Indian Sign Language translation. No new model training is claimed. Real device lighting, camera placement and usability with children or disabled users still require field testing. Touch controls remain available.
+
+`npm run prepare:gestures` (also predev/prebuild) copies the pinned MediaPipe WASM runtime and downloads the official model with SHA-256 verification. Initial setup needs network access; inference and camera frames stay local afterwards. Generated assets are ignored by Git. See [MediaPipe web gesture recognition](https://ai.google.dev/edge/mediapipe/solutions/vision/gesture_recognizer/web_js).
+
+The optional real-hand browser check uses the official fixture from `https://storage.googleapis.com/mediapipe-assets/thumb_up.jpg`: download it outside the repository and run `CAREX_GESTURE_TEST_IMAGE=/path/to/thumb_up.jpg npm run test:e2e`. It verifies that this uncertain real-hand sample is recognized without submitting a clinical answer. A separate deterministic worker test verifies confident-answer confirmation and camera shutdown on triage; ordinary tests do not require this fixture.

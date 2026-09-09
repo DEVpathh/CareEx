@@ -1,3 +1,4 @@
+import { bodyLocations, bodyMapContext, applyBodyLocations } from './body-map.js'
 import { createOcr } from './documents/ocr.js'
 import { mountDocuments } from './documents/routes.js'
 import { createSms, mountFollowups, mobileNumber } from './followups/service.js'
@@ -53,6 +54,7 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
   app.use(express.json({ limit: '2mb' }))
   mountDocuments(app, { documents, patients, consents, cases, persist, ocr, envelope })
   mountFollowups(app, { followups, patients, cases, persist, sms, now, envelope })
+  app.get('/api/v1/body-map', (_req,res) => res.json(envelope(bodyLocations.map(({concern,...item})=>item))))
   app.get('/api/v1/health', (_req, res) => res.json(envelope({ status: 'ok', intakeEngine: 'adaptive-rules-v2', symptomGroups: symptomCatalog.length })))
   app.get('/api/v1/patient-experience', (_req, res) => res.json(envelope(experience)))
   app.get('/api/v1/patients/lookup', (req, res) => {
@@ -80,7 +82,9 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
     res.status(201).json(envelope(consent))
   })
   app.post('/api/v1/intake/questions', (req, res) => {
-    const complaint = String(req.body?.complaint ?? '').trim()
+    let bodyContext
+    try { bodyContext = bodyMapContext(req.body?.bodyLocations, String(req.body?.complaint ?? '').trim()) } catch (error) { return res.status(400).json({message:error.message}) }
+    const complaint = bodyContext.complaint
     if (complaint.length < 3 || complaint.length > 5000) return res.status(400).json({ message: 'Please describe the problem in 3 to 5000 characters.' })
     const answers = req.body?.answers ?? {}
     if (!answers || Array.isArray(answers) || typeof answers !== 'object' || Object.entries(answers).some(([key, value]) => key.length > 100 || typeof value !== 'string' || value.length > 5000)) return res.status(400).json({ message: 'Invalid follow-up answers.' })
@@ -93,12 +97,15 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
     }
     analysis = stopForTriage(analysis, req.body?.language, triageSessions.get(req.body?.sessionId))
     if (analysis.stopQuestionnaire && typeof req.body?.sessionId === 'string' && req.body.sessionId.length <= 100) { triageSessions.set(req.body.sessionId, analysis.triageLevel); persist() }
+    analysis = applyBodyLocations(analysis, bodyContext, req.body?.answers)
     res.json(envelope(analysis))
   })
   app.get('/api/v1/cases/draft', (_req, res) => res.json(envelope({ id: `case-${randomUUID()}`, patientId: '', status: 'draft', chiefComplaint: '', hpi: '', pastHistory: '', drugAndAllergy: '', familyHistory: '', ros: '' })))
   app.get('/api/v1/cases', (_req, res) => res.json(envelope([...cases.values()].sort((a, b) => Number(b.urgent) - Number(a.urgent) || b.createdAt.localeCompare(a.createdAt)))))
   app.post('/api/v1/cases/submit', (req, res) => {
-    const body = req.body ?? {}
+    const body = { ...(req.body ?? {}) }
+    let bodyContext
+    try { bodyContext = bodyMapContext(body.bodyLocations, String(body.chiefComplaint ?? '')); body.chiefComplaint = bodyContext.complaint } catch (error) { return res.status(400).json({message:error.message}) }
     const patient = [...patients.values()].find(p => p.id === body.patientId)
     if (!patient || typeof body.chiefComplaint !== 'string' || body.chiefComplaint.trim().length < 3) return res.status(400).json({ message: 'A registered patient and chief complaint are required.' })
     const consent = consents.get(patient.id)
@@ -113,6 +120,7 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
       id: body.id || `case-${randomUUID()}`, patientId: patient.id, patient,
       status: 'submitted', token: `A-${String(cases.size + 1).padStart(3, '0')}`,
       language: body.language, pathway: body.pathway === 'ayush' ? 'ayush' : 'general',
+      bodyLocations: bodyContext.ids,
       answers: { ...analysis.inferredAnswers, ...body.answers }, questions: triaged.questions,
       urgent: triaged.urgent, stopQuestionnaire: triaged.stopQuestionnaire, documentIds, urgentReasons: analysis.urgentReasons,
       triageLevel: triaged.triageLevel,
