@@ -19,7 +19,7 @@ const json = async (base, route, body, method = 'POST') => {
 
 test('configuration defaults to Hindi and starts with concern, without a welcome step', () => withServer(async base => {
   const { data } = await json(base, '/patient-experience', null, 'GET')
-  assert.equal(data.brand.name, 'CareX')
+  assert.equal(data.brand.name, 'Swasthya Setu')
   assert.equal(data.languages[0].locale, 'hi-IN')
   assert.equal(data.steps.includes('Welcome'), false)
 }))
@@ -91,8 +91,8 @@ test('every catalog group has unique bilingual question IDs and supports a compl
   }
 })
 
-test('API rejects malformed answers and out-of-range severity', () => withServer(async base => {
-  assert.equal((await json(base, '/intake/questions', { complaint: 'headache', answers: { severity: '15' } })).status, 400)
+test('API rejects malformed answers and out-of-range option values', () => withServer(async base => {
+  assert.equal((await json(base, '/intake/questions', { complaint: 'cough', answers: { 'cough.kind': 'invalid_option' } })).status, 400)
   assert.equal((await json(base, '/intake/questions', { complaint: 'headache', answers: { 'headache.warning': 'maybe' } })).status, 400)
   assert.equal((await json(base, '/intake/questions', { complaint: 'headache', answers: [] })).status, 400)
 }))

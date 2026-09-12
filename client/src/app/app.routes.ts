@@ -11,4 +11,9 @@ export const appRoutes = {
   redFlags: '/api/v1/cases/:caseId/red-flags',
   symptomQuestions: '/api/v1/intake/questions',
   attendantRequests: '/api/v1/attendant-requests',
+  bhashiniASR: '/api/v1/bhashini/asr',
+  bhashiniTranslate: '/api/v1/bhashini/translate',
+  bhashiniTransliterate: '/api/v1/bhashini/transliterate',
+  bhashiniTTS: '/api/v1/bhashini/tts',
+  bhashiniOCR: '/api/v1/bhashini/ocr',
 } as const

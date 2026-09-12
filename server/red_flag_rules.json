@@ -1,0 +1,1802 @@
+[
+  {
+    "id": 1,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Cardiac Arrest - Pulseless",
+    "english_nlp_keywords": ["no pulse", "heart stopped beating", "not breathing and unresponsive"],
+    "hindi_hinglish_triggers": ["nabz nahi chal rahi", "dil dhadakna band ho gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 2,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Cardiac Arrest - Sudden Collapse",
+    "english_nlp_keywords": ["suddenly collapsed and turned blue", "dropped dead"],
+    "hindi_hinglish_triggers": ["achanak gir gaye aur neele pad gaye", "hosh bilkul chala gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 3,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "AMI - Substernal Heaviness",
+    "english_nlp_keywords": ["crushing chest pain", "heavy weight on chest", "elephant sitting on chest"],
+    "hindi_hinglish_triggers": ["seene par bhari wajan", "chaati dab rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 4,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "AMI - Left Arm Radiation",
+    "english_nlp_keywords": ["chest pain radiating to left arm", "chest pain going down left hand"],
+    "hindi_hinglish_triggers": ["dard seene se baayein haath mein ja raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 5,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "AMI - Jaw Radiation",
+    "english_nlp_keywords": ["chest pain reaching jaw", "choking chest pain into neck"],
+    "hindi_hinglish_triggers": ["seene ka dard jabde tak ja raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 6,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "AMI - Diaphoresis",
+    "english_nlp_keywords": ["chest pain with cold sweat", "drenched in sweat with chest pain"],
+    "hindi_hinglish_triggers": ["seene mein dard aur thanda pasina"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 7,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Aortic Dissection - Thoracic",
+    "english_nlp_keywords": ["tearing chest pain to back", "ripping sensation between shoulder blades"],
+    "hindi_hinglish_triggers": ["seene se peeth tak cheerne jaisa dard", "chaati phat rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 8,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Aortic Dissection - Abdominal",
+    "english_nlp_keywords": ["sudden tearing abdominal pain into back"],
+    "hindi_hinglish_triggers": ["pet aur kamar mein cheerne jaisa achanak dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 9,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Cardiogenic Shock - Hypotension",
+    "english_nlp_keywords": ["cold clammy skin with chest tightness", "pulse very weak and chest hurting"],
+    "hindi_hinglish_triggers": ["BP bilkul nahi hai aur seene mein dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 10,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Acute Pulmonary Edema (Cardiac)",
+    "english_nlp_keywords": ["drowning sensation while lying flat", "pink frothy sputum"],
+    "hindi_hinglish_triggers": ["letne par dum ghutna", "khaasi mein gulaabi jhaag"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 11,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Ventricular Fibrillation (Post-revival)",
+    "english_nlp_keywords": ["was shocked by AED", "CPR was done"],
+    "hindi_hinglish_triggers": ["chhati dabakar hosh laye hain", "shock diya tha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 12,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Malignant Tachycardia",
+    "english_nlp_keywords": ["heart beating out of chest and fainting", "racing heart blacking out"],
+    "hindi_hinglish_triggers": ["dil phatne ko ho raha hai aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 13,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Symptomatic Bradycardia - Extreme",
+    "english_nlp_keywords": ["pulse dropping to 30", "heart barely beating feeling faint"],
+    "hindi_hinglish_triggers": ["dhadkan bilkul doob rahi hai", "chakkar kha ke gire"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 14,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Ruptured AAA (Abdominal Aortic Aneurysm)",
+    "english_nlp_keywords": ["pulsating mass in stomach with severe pain"],
+    "hindi_hinglish_triggers": ["pet mein dhadkan mehsus aur achanak bhayanak dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 15,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Cardiac Tamponade",
+    "english_nlp_keywords": ["muffled heart with chest pain", "neck veins bulging with chest pain"],
+    "hindi_hinglish_triggers": ["gale ki nas phool gayi aur chhati dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 16,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Massive Pulmonary Embolism",
+    "english_nlp_keywords": ["sudden extreme shortness of breath with right heart pain"],
+    "hindi_hinglish_triggers": ["achanak poori saans band ho gayi chhati bhari"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 17,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Coronary Artery Spasm",
+    "english_nlp_keywords": ["waking up with crushing chest pain at rest"],
+    "hindi_hinglish_triggers": ["sote hue achanak seene mein bhayanak dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 18,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Acute Heart Failure Exacerbation",
+    "english_nlp_keywords": ["cannot breathe at all", "legs completely swollen and gasping"],
+    "hindi_hinglish_triggers": ["pairon mein bohot sujan aur saans bilkul nahi aa rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 19,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Hypertensive Crises with End Organ Damage",
+    "english_nlp_keywords": ["blood pressure 220 over 120 and vomiting", "BP extremely high with vision loss"],
+    "hindi_hinglish_triggers": ["BP bohot high hai aur aankhon ke aage andhera"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 20,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Circulatory Cyanosis",
+    "english_nlp_keywords": ["lips and fingertips turned dark blue", "face turned ash gray"],
+    "hindi_hinglish_triggers": ["hoth aur nakhun neele pad gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 21,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Pacemaker Failure",
+    "english_nlp_keywords": ["pacemaker sparking", "device in chest beeping and fainting"],
+    "hindi_hinglish_triggers": ["dil ki machine se aawaz aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 22,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Endocarditis with Emboli",
+    "english_nlp_keywords": ["fever with sudden loss of pulse in leg"],
+    "hindi_hinglish_triggers": ["bukhar aur pair ki nabz gayab"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 23,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "LVAD Alarm",
+    "english_nlp_keywords": ["heart pump alarm sounding continuously"],
+    "hindi_hinglish_triggers": ["dil ki machine lagatar baj rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 24,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Myocarditis (Acute)",
+    "english_nlp_keywords": ["chest pain after viral fever with fainting"],
+    "hindi_hinglish_triggers": ["bukhar ke baad chhati mein dard aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 25,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Pulmonary Artery Rupture",
+    "english_nlp_keywords": ["sudden coughing cups of blood with chest pain"],
+    "hindi_hinglish_triggers": ["achanak chhati dard aur bahut khoon ki khasi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 26,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Complete Airway Obstruction",
+    "english_nlp_keywords": ["choking on food", "holding throat cannot speak"],
+    "hindi_hinglish_triggers": ["gale mein khana phans gaya", "bol nahi pa rahe saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 27,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Partial Obstruction with Cyanosis",
+    "english_nlp_keywords": ["something in throat and turning blue"],
+    "hindi_hinglish_triggers": ["gale mein kuch atka hai aur chehra neela pad raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 28,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Anaphylactic Airway Swelling",
+    "english_nlp_keywords": ["tongue swelling rapidly", "lips swollen and choking"],
+    "hindi_hinglish_triggers": ["jeebh aur honth sooj gaye", "gala band ho raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 29,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Acute Epiglottitis",
+    "english_nlp_keywords": ["drooling cannot swallow own spit", "leaning forward gasping"],
+    "hindi_hinglish_triggers": ["thook bhi nahi nigla ja raha", "muh se laar tapak rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 30,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Status Asthmaticus - Silent Chest",
+    "english_nlp_keywords": ["asthma attack cannot hear breath", "inhaler did absolutely nothing gasping"],
+    "hindi_hinglish_triggers": ["inhaler se zero aaram", "saans lene ki aawaz bhi nahi aa rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 31,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Status Asthmaticus - 1 Word Dyspnea",
+    "english_nlp_keywords": ["can only speak one word at a time", "too breathless to talk"],
+    "hindi_hinglish_triggers": ["saans ukhad rahi hai baat nahi kar pa rahe"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 32,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Tension Pneumothorax",
+    "english_nlp_keywords": ["trachea shifted chest pain", "chest feels collapsed on one side"],
+    "hindi_hinglish_triggers": ["ek taraf chhati bilkul baith gayi hai", "achanak saans phoolna"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 33,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Open Pneumothorax",
+    "english_nlp_keywords": ["sucking chest wound", "air bubbling from chest cut"],
+    "hindi_hinglish_triggers": ["chhati ke ghav se hawa nikal rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 34,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Massive Hemoptysis - Volume",
+    "english_nlp_keywords": ["coughing up a cup of fresh blood", "spitting large blood clots"],
+    "hindi_hinglish_triggers": ["khasi mein ek katori taza khoon", "khoon ke bade thakke"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 35,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Massive Hemoptysis - Asphyxiation",
+    "english_nlp_keywords": ["choking on own blood from cough"],
+    "hindi_hinglish_triggers": ["khoon ki khasi se dum ghut raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 36,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Agonal Respiration",
+    "english_nlp_keywords": ["gasping for breath like a fish out of water"],
+    "hindi_hinglish_triggers": ["machli ki tarah haanf rahe"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 37,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Apnea (Adult)",
+    "english_nlp_keywords": ["stopped breathing completely"],
+    "hindi_hinglish_triggers": ["saans aana bilkul band ho gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 38,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Smoke Inhalation Injury",
+    "english_nlp_keywords": ["trapped in fire black soot in mouth breathing fast"],
+    "hindi_hinglish_triggers": ["aag ke dhuen mein the naak mein kaalikh"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 39,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Toxic Fume Inhalation",
+    "english_nlp_keywords": ["inhaled industrial acid fumes choking"],
+    "hindi_hinglish_triggers": ["factory ki gas sung li dum ghut raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 40,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Drowning / Submersion",
+    "english_nlp_keywords": ["pulled out of water unconscious", "drowned in pool"],
+    "hindi_hinglish_triggers": ["paani mein doob gaye the hosh nahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 41,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Tracheal Rupture",
+    "english_nlp_keywords": ["hit in throat neck swelling like a balloon"],
+    "hindi_hinglish_triggers": ["gale par chot lagi aur gala gubbare jaisa phool gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 42,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Flail Chest",
+    "english_nlp_keywords": ["chest moving backwards when breathing after crash"],
+    "hindi_hinglish_triggers": ["accident ke baad chhati ulti chal rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 43,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Severe Acute Exacerbation of COPD",
+    "english_nlp_keywords": ["copd patient totally confused and blue lips"],
+    "hindi_hinglish_triggers": ["saans ke mariz behoshi mein neele hoth"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 44,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Strangulation / Hanging",
+    "english_nlp_keywords": ["found hanging rope mark on neck breathing weird"],
+    "hindi_hinglish_triggers": ["fansi lagayi thi gale par nishaan aur saans ruk rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 45,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Vocal Cord Paralysis (Bilateral)",
+    "english_nlp_keywords": ["sudden stridor after neck surgery"],
+    "hindi_hinglish_triggers": ["gale ke operation ke baad achanak saans rukna"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 46,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Massive Aspiration",
+    "english_nlp_keywords": ["vomited and inhaled it turning blue"],
+    "hindi_hinglish_triggers": ["ulti karke saans ki nali mein fas gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 47,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Laryngeal Spasm",
+    "english_nlp_keywords": ["high pitched crowing sound cannot get air in"],
+    "hindi_hinglish_triggers": ["murge jaisi aawaz aa rahi saans kheenchne par"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 48,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Bilateral Pneumothorax",
+    "english_nlp_keywords": ["crushed chest both sides collapsed"],
+    "hindi_hinglish_triggers": ["chhati poori dab gayi dono taraf saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 49,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Severe Pulmonary Contusion",
+    "english_nlp_keywords": ["hit steering wheel hard coughing blood"],
+    "hindi_hinglish_triggers": ["steering se chhati takrayi aur khoon ki khasi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 50,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Diaphragmatic Rupture",
+    "english_nlp_keywords": ["run over by car stomach in chest cannot breathe"],
+    "hindi_hinglish_triggers": ["gaadi upar se nikal gayi saans bilkul nahi aa rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 51,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Ischemic Stroke - MCA",
+    "english_nlp_keywords": ["face drooping one side arm weak"],
+    "hindi_hinglish_triggers": ["muh tedha ho gaya aur ek haath sunn"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 52,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Stroke - Aphasia",
+    "english_nlp_keywords": ["suddenly speaking gibberish cannot understand"],
+    "hindi_hinglish_triggers": ["achanak zubaan palat gayi kuch samajh nahi aa raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 53,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Stroke - Hemiplegia",
+    "english_nlp_keywords": ["entire right side paralyzed suddenly"],
+    "hindi_hinglish_triggers": ["sidha hissa poora lakwa maar gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 54,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Brainstem Stroke",
+    "english_nlp_keywords": ["locked in unable to move anything but eyes"],
+    "hindi_hinglish_triggers": ["poora shareer sunn sirf aankh chal rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 55,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Subarachnoid Hemorrhage (SAH)",
+    "english_nlp_keywords": ["worst headache of my life like thunder"],
+    "hindi_hinglish_triggers": ["zindagi ka sabse bhayanak sir dard phatne jaisa"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 56,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Status Epilepticus - Continuous",
+    "english_nlp_keywords": ["seizing for 10 minutes won't stop"],
+    "hindi_hinglish_triggers": ["10 minute se lagatar daura chal raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 57,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Status Epilepticus - Recurrent",
+    "english_nlp_keywords": ["had 3 seizures without waking up between"],
+    "hindi_hinglish_triggers": ["bina hosh aaye 3 baar jhatke aa gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 58,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Coma / GCS < 8",
+    "english_nlp_keywords": ["completely unresponsive to hard pinch"],
+    "hindi_hinglish_triggers": ["choti kaatne par bhi hosh nahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 59,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Epidural Hematoma (Lucid Interval)",
+    "english_nlp_keywords": ["hit head was fine now completely unconscious"],
+    "hindi_hinglish_triggers": ["chot ke baad theek the ab behosh ho gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 60,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Subdural Hematoma (Acute)",
+    "english_nlp_keywords": ["blood thinners hit head vomiting passing out"],
+    "hindi_hinglish_triggers": ["khoon patla karne ki dawai chot lagi aur ulti behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 61,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Brain Herniation (Cushing's)",
+    "english_nlp_keywords": ["irregular breathing very slow pulse high bp after head injury"],
+    "hindi_hinglish_triggers": ["sar par chot ke baad saans ukhad rahi aur dhadkan dheemi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 62,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Meningococcemia with Coma",
+    "english_nlp_keywords": ["stiff neck purple spots on skin unconscious"],
+    "hindi_hinglish_triggers": ["gardan akdi hui laal dhabbe aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 63,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Encephalitis",
+    "english_nlp_keywords": ["fever violent confusion seizures"],
+    "hindi_hinglish_triggers": ["bukhar pagalpanti aur mirgi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 64,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Decerebrate Posturing",
+    "english_nlp_keywords": ["arms and legs straight and rigid after crash"],
+    "hindi_hinglish_triggers": ["accident ke baad haath pair bilkul akad gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 65,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Sudden Monocular Blindness (CRAO)",
+    "english_nlp_keywords": ["sudden total painless blindness in one eye"],
+    "hindi_hinglish_triggers": ["achanak ek aankh ki roshni bilkul chali gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 66,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Cauda Equina Syndrome",
+    "english_nlp_keywords": ["cannot feel groin peed pants without knowing back pain"],
+    "hindi_hinglish_triggers": ["peshab nikal gaya pata nahi chala aur kamar dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 67,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Spinal Cord Transection (Cervical)",
+    "english_nlp_keywords": ["broke neck cannot move anything below shoulders"],
+    "hindi_hinglish_triggers": ["gardan ki haddi tooti poora shareer sunn"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 68,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Neurogenic Shock",
+    "english_nlp_keywords": ["spine injury low bp warm skin"],
+    "hindi_hinglish_triggers": ["kamar ki chot ke baad BP gayab aur garam skin"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 69,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Psychosis with Homicidal Intent",
+    "english_nlp_keywords": ["has a knife saying voices told to kill"],
+    "hindi_hinglish_triggers": ["chaku lekar maarne daud raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 70,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Wernicke's Encephalopathy",
+    "english_nlp_keywords": ["alcoholic eyes jerking completely confused"],
+    "hindi_hinglish_triggers": ["sharab peene wale ki aankhein ghoom rahi aur hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 71,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Myasthenic Crisis",
+    "english_nlp_keywords": ["myasthenia patient cannot swallow or breathe"],
+    "hindi_hinglish_triggers": ["myasthenia mariz ki saans phool rahi nigla nahi ja raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 72,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Guillain-Barré Syndrome (Respiratory Failure)",
+    "english_nlp_keywords": ["weakness moved up legs now cannot breathe"],
+    "hindi_hinglish_triggers": ["kamzori pairo se chhati tak aagayi saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 73,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "VP Shunt Malfunction with Coma",
+    "english_nlp_keywords": ["brain tube patient vomiting passing out"],
+    "hindi_hinglish_triggers": ["dimag ki nali wale bachhe ko ulti aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 74,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Locked-In Syndrome Presentation",
+    "english_nlp_keywords": ["awake but only blinking completely paralyzed"],
+    "hindi_hinglish_triggers": ["hosh mein par sirf palke jhapak rahi poora lakwa"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 75,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Cerebellar Hemorrhage",
+    "english_nlp_keywords": ["vertigo extreme vomiting cannot stand head pain"],
+    "hindi_hinglish_triggers": ["chakkar lagatar ulti khade nahi ho pa rahe sir dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 76,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Gunshot Wound - Head",
+    "english_nlp_keywords": ["shot in the head", "bullet to brain"],
+    "hindi_hinglish_triggers": ["sar par goli lagi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 77,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Gunshot Wound - Chest",
+    "english_nlp_keywords": ["shot in the chest", "bullet in chest bleeding"],
+    "hindi_hinglish_triggers": ["chhati mein goli lagi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 78,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Gunshot Wound - Abdomen",
+    "english_nlp_keywords": ["shot in the stomach", "bullet in belly"],
+    "hindi_hinglish_triggers": ["pet mein goli lagi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 79,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Gunshot Wound - Neck",
+    "english_nlp_keywords": ["shot in throat", "neck bullet wound"],
+    "hindi_hinglish_triggers": ["gale mein goli lagi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 80,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Stab Wound - Cardiac Box",
+    "english_nlp_keywords": ["stabbed in heart", "knife in chest over heart"],
+    "hindi_hinglish_triggers": ["dil ke paas chaku laga hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 81,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Stab Wound - Neck with Bubbling",
+    "english_nlp_keywords": ["stabbed in neck air bubbling out"],
+    "hindi_hinglish_triggers": ["gale mein chaku laga hawa nikal rahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 82,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Impaled Object - Torso",
+    "english_nlp_keywords": ["metal rod stuck in stomach", "pipe through chest"],
+    "hindi_hinglish_triggers": ["pet mein sariya ghus gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 83,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Impaled Object - Eye/Brain",
+    "english_nlp_keywords": ["stick penetrated through eye"],
+    "hindi_hinglish_triggers": ["aankh ke andar rod ghus gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 84,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Stab Wound - Groin (Femoral Artery)",
+    "english_nlp_keywords": ["stabbed in groin bleeding heavy pumps"],
+    "hindi_hinglish_triggers": ["jhang mein chaku laga fawware jaisa khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 85,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Evisceration",
+    "english_nlp_keywords": ["intestines hanging out of stomach cut"],
+    "hindi_hinglish_triggers": ["pet cut gaya aur aante bahar aa gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 86,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Traumatic Amputation - Arm",
+    "english_nlp_keywords": ["arm chopped off", "arm severed in machine"],
+    "hindi_hinglish_triggers": ["haath cut kar alag ho gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 87,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Traumatic Amputation - Leg",
+    "english_nlp_keywords": ["leg crushed and amputated by train"],
+    "hindi_hinglish_triggers": ["train se pair cut gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 88,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Open Skull Fracture with Brain Matter",
+    "english_nlp_keywords": ["head cracked open brain showing"],
+    "hindi_hinglish_triggers": ["sar phat gaya dimag dikh raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 89,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Basilar Skull Fracture with CSF",
+    "english_nlp_keywords": ["clear fluid leaking from ears after crash"],
+    "hindi_hinglish_triggers": ["accident ke baad kaan se paani beh raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 90,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Unstable Pelvic Ring Fracture",
+    "english_nlp_keywords": ["crushed hip under truck pelvis unstable"],
+    "hindi_hinglish_triggers": ["truck ke niche kamar kachal gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 91,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Bilateral Femur Fractures",
+    "english_nlp_keywords": ["both thigh bones broken sticking out"],
+    "hindi_hinglish_triggers": ["dono jhang ki haddi toot kar bahar aa gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 92,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Massive Crush Syndrome",
+    "english_nlp_keywords": ["trapped under building for hours crushed legs"],
+    "hindi_hinglish_triggers": ["makan ke malbe mein ghanto pair dabe the"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 93,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Degloving Injury - Limb",
+    "english_nlp_keywords": ["skin completely ripped off whole leg"],
+    "hindi_hinglish_triggers": ["poore pair ki chamdi ukhad gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 94,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Blunt Cardiac Injury",
+    "english_nlp_keywords": ["hit steering wheel heart rhythm irregular low bp"],
+    "hindi_hinglish_triggers": ["steering chhati par laga aur BP doob gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 95,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Solid Organ Rupture (Liver/Spleen)",
+    "english_nlp_keywords": ["kicked in stomach rigid belly fainting pulse high"],
+    "hindi_hinglish_triggers": ["pet par laat padi thi pet patthar ban gaya aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 96,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Airway/Neck)",
+    "condition_name": "Laryngeal Fracture",
+    "english_nlp_keywords": ["clothesline injury to neck cannot speak spitting blood"],
+    "hindi_hinglish_triggers": ["gale par taar lagi aawaz band aur khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 97,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Airway/Neck)",
+    "condition_name": "Expanding Neck Hematoma",
+    "english_nlp_keywords": ["neck swelling rapidly after cut strangling airway"],
+    "hindi_hinglish_triggers": ["gale mein cut ke baad itni sujan ki saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 98,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "High Fall (>20 feet) with AMS",
+    "english_nlp_keywords": ["fell from 3rd floor not answering questions"],
+    "hindi_hinglish_triggers": ["tesri manzil se gire aur hosh nahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 99,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Pedestrian Struck at High Speed",
+    "english_nlp_keywords": ["hit by fast truck thrown 30 feet unconscious"],
+    "hindi_hinglish_triggers": ["tez truck ne udaya hosh nahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 100,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Traumatic Asphyxia",
+    "english_nlp_keywords": ["crushed by crowd chest purple eyes bloodshot"],
+    "hindi_hinglish_triggers": ["bheed mein dab gaye the chhati neeli pad gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 101,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Arterial Bleeding - Neck (Carotid/Jugular)",
+    "english_nlp_keywords": ["throat slit blood squirting out"],
+    "hindi_hinglish_triggers": ["gala cut gaya fawware se khoon nikal raha hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 102,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Arterial Bleeding - Arm (Brachial)",
+    "english_nlp_keywords": ["deep arm cut arterial pumping blood"],
+    "hindi_hinglish_triggers": ["haath ki main nas cut gayi khoon nahi ruk raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 103,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Arterial Bleeding - Groin (Femoral)",
+    "english_nlp_keywords": ["groin artery cut bleeding out fast"],
+    "hindi_hinglish_triggers": ["jhang ki nas cut gayi behisaab khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 104,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Tourniquet Applied (Pre-hospital)",
+    "english_nlp_keywords": ["belt tied tight around leg to stop massive bleeding"],
+    "hindi_hinglish_triggers": ["khoon rokne ke liye rassi kas ke baandhi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 105,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Massive Variceal Hemorrhage",
+    "english_nlp_keywords": ["liver patient vomiting fountains of blood"],
+    "hindi_hinglish_triggers": ["liver kharab hai aur katoriyon taza khoon ki ulti"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 106,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Massive Upper GI Bleed with Syncope",
+    "english_nlp_keywords": ["vomited blood and passed out pale"],
+    "hindi_hinglish_triggers": ["khoon ki ulti ki aur behosh hoke gir gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 107,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Massive Lower GI Bleed with Shock",
+    "english_nlp_keywords": ["pooling pure blood from rectum dizzy and pale"],
+    "hindi_hinglish_triggers": ["latrine ke raaste lagatar khoon ka dhar chakkar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 108,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Ruptured Ectopic Pregnancy",
+    "english_nlp_keywords": ["pregnant severe lower pelvic pain and collapsed"],
+    "hindi_hinglish_triggers": ["pregnancy mein pet dard se behosh"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 109,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Massive Postpartum Hemorrhage (PPH)",
+    "english_nlp_keywords": ["just delivered baby bleeding buckets won't stop"],
+    "hindi_hinglish_triggers": ["delivery ke baad behisaab khoon kapde bheeg gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 110,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Placental Abruption with Shock",
+    "english_nlp_keywords": ["late pregnancy huge bleeding stomach rock hard"],
+    "hindi_hinglish_triggers": ["pregnancy aakhri mahina aur bahut bleeding pet patthar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 111,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Hemorrhagic Shock (Class 4)",
+    "english_nlp_keywords": ["lost massive blood heart racing confused no urine"],
+    "hindi_hinglish_triggers": ["khoon behne ke baad hosh nahi BP nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 112,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Disseminated Intravascular Coagulation (DIC)",
+    "english_nlp_keywords": ["bleeding from eyes nose and IV sites"],
+    "hindi_hinglish_triggers": ["aankh naak aur sui ki jagah se khoon beh raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 113,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Uterine Rupture",
+    "english_nlp_keywords": ["in labor sudden tearing pain bleeding baby stopped moving"],
+    "hindi_hinglish_triggers": ["labor pain mein achanak phatne jaisa dard aur bleeding"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 114,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Severe Internal Bleeding - Spleen",
+    "english_nlp_keywords": ["left shoulder pain after stomach punch pale cold"],
+    "hindi_hinglish_triggers": ["pet par chot ke baad baaya kandha dard aur thanda pasina"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 115,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hemorrhage & Bleeding",
+    "condition_name": "Aortoenteric Fistula Bleed",
+    "english_nlp_keywords": ["had aorta surgery suddenly vomiting massive fresh blood"],
+    "hindi_hinglish_triggers": ["nas ki surgery hui thi ab achanak khoon ki ulti"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 116,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Organophosphate Poisoning - Severe",
+    "english_nlp_keywords": ["drank pesticide foaming at mouth pupils pinpoints"],
+    "hindi_hinglish_triggers": ["kheton ki dawai pee li muh se jhaag aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 117,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Cyanide Poisoning",
+    "english_nlp_keywords": ["inhaled industrial smoke seizures smell of bitter almonds"],
+    "hindi_hinglish_triggers": ["factory ka zeher nigal liya turant jhatke"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 118,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Carbon Monoxide Poisoning - Coma",
+    "english_nlp_keywords": ["found unconscious in closed garage with car running"],
+    "hindi_hinglish_triggers": ["band kamre mein angithi jala kar soye hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 119,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Corrosive Acid Ingestion - Airway Threat",
+    "english_nlp_keywords": ["drank toilet acid airway swelling cannot breathe"],
+    "hindi_hinglish_triggers": ["tezaab pee liya gala jal gaya saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 120,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Alkali (Lye) Ingestion",
+    "english_nlp_keywords": ["drank drain cleaner vomiting black blood"],
+    "hindi_hinglish_triggers": ["drain cleaner nigal liya ulti mein khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 121,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Opioid Overdose - Apnea",
+    "english_nlp_keywords": ["took heroin breathing twice a minute totally blue"],
+    "hindi_hinglish_triggers": ["nashe ki sui li thi saans ruk gayi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 122,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Tricyclic Antidepressant Overdose",
+    "english_nlp_keywords": ["swallowed 50 amitriptyline wide pupils seizing"],
+    "hindi_hinglish_triggers": ["dimag ki 50 goli kha li jhatke aa rahe"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 123,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Cocaine / Meth Toxicity (Sympathomimetic)",
+    "english_nlp_keywords": ["chest pain HR 160 temp 105 aggressive after drugs"],
+    "hindi_hinglish_triggers": ["nasha karke dil phat raha hai aur pagalpanti"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 124,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Venomous Snakebite - Neurotoxic (Cobra/Krait)",
+    "english_nlp_keywords": ["cobra bite eyelids drooping cannot swallow"],
+    "hindi_hinglish_triggers": ["saamp ne kaata palke gir rahi hain gala band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 125,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Venomous Snakebite - Hemotoxic (Viper)",
+    "english_nlp_keywords": ["viper bite leg black and bleeding from gums"],
+    "hindi_hinglish_triggers": ["saamp kaata pair kaala pad gaya masudo se khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 126,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Scorpion Sting - Pulmonary Edema",
+    "english_nlp_keywords": ["red scorpion sting now gasping pink froth"],
+    "hindi_hinglish_triggers": ["bicchu ne kaata aur muh se jhaag saans ukhad rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 127,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Paraquat Poisoning",
+    "english_nlp_keywords": ["swallowed weed killer mouth ulcerated vomiting"],
+    "hindi_hinglish_triggers": ["ghaas jalane ki dawai pee li muh jal gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 128,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Ethylene Glycol Poisoning",
+    "english_nlp_keywords": ["drank antifreeze severe flank pain coma"],
+    "hindi_hinglish_triggers": ["radiator ka paani pee liya aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 129,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Methanol Poisoning",
+    "english_nlp_keywords": ["drank local cheap liquor completely blind now"],
+    "hindi_hinglish_triggers": ["kacchi sharab pee thi ab aankh se andha ho gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 130,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Beta-Blocker Overdose",
+    "english_nlp_keywords": ["took 30 bp pills heart rate 20 fading out"],
+    "hindi_hinglish_triggers": ["BP ki saari goli kha li dhadkan bilkul doob gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 131,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Calcium Channel Blocker Overdose",
+    "english_nlp_keywords": ["swallowed amlodipine bottle bp unrecordable"],
+    "hindi_hinglish_triggers": ["BP ki dawai ka poora patta kha liya hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 132,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Lithium Toxicity - Severe",
+    "english_nlp_keywords": ["lithium patient rigid muscles seizures coma"],
+    "hindi_hinglish_triggers": ["dimag ki dawai kha kar poora shareer akad gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 133,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Digoxin Toxicity with Arrhythmia",
+    "english_nlp_keywords": ["heart patient vomiting seeing yellow halos passing out"],
+    "hindi_hinglish_triggers": ["dil ki dawai kha kar ulti peela dikh raha aur chakkar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 134,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Paracetamol Overdose (Massive Acute)",
+    "english_nlp_keywords": ["swallowed 40 tylenol 2 hours ago"],
+    "hindi_hinglish_triggers": ["bukhar ki 40 goli ek sath kha li"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 135,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Salicylate (Aspirin) Overdose",
+    "english_nlp_keywords": ["swallowed bottle of aspirin breathing super fast ringing ears"],
+    "hindi_hinglish_triggers": ["aspirin ki puri bottle pee li saans bohot tez chal rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 136,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Anaphylaxis - Post-Injection",
+    "english_nlp_keywords": ["collapsed immediately after antibiotic injection"],
+    "hindi_hinglish_triggers": ["sui lagte hi behosh ho gaye aur saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 137,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Anaphylaxis - Food Allergy",
+    "english_nlp_keywords": ["ate peanuts lips huge hives everywhere choking"],
+    "hindi_hinglish_triggers": ["mungfali kha kar hoth sooj gaye gala band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 138,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Anaphylaxis - Bee Sting",
+    "english_nlp_keywords": ["stung by bee throat closed fainting"],
+    "hindi_hinglish_triggers": ["madhumakkhi kaati aur saans atak gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 139,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Septic Shock - Extreme Hypotension",
+    "english_nlp_keywords": ["fever shivering bp 60 over 40 confused"],
+    "hindi_hinglish_triggers": ["tej bukhar BP bilkul down aur hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 140,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Toxic Shock Syndrome (TSS)",
+    "english_nlp_keywords": ["tampon high fever skin peeling red rash bp crashed"],
+    "hindi_hinglish_triggers": ["bukhar ke sath poore shareer par laal rash aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 141,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Stevens-Johnson Syndrome (SJS/TEN)",
+    "english_nlp_keywords": ["took new medicine skin peeling off eyes burning blisters"],
+    "hindi_hinglish_triggers": ["dawai khane se poori chamdi faphole pad ke ukhad rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 142,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Malignant Hyperthermia",
+    "english_nlp_keywords": ["just had surgery temp 107 muscles rigid"],
+    "hindi_hinglish_triggers": ["operation ke baad shareer jal raha hai aur akad gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 143,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Diabetic Ketoacidosis (DKA) with Coma",
+    "english_nlp_keywords": ["sugar over 600 fruity breath completely unconscious"],
+    "hindi_hinglish_triggers": ["sugar bohot high hai muh se meethi badboo aur behosh"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 144,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "HHS Coma (Hyperosmolar Hyperglycemic State)",
+    "english_nlp_keywords": ["elderly type 2 sugar unreadably high severe dehydration coma"],
+    "hindi_hinglish_triggers": ["bade bujurg ki sugar machine se bahar aur coma mein"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 145,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Severe Hypoglycemic Coma",
+    "english_nlp_keywords": ["took insulin didn't eat completely unresponsive"],
+    "hindi_hinglish_triggers": ["insulin li par khana nahi khaya ab hosh nahi hai"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 146,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Thyroid Storm with Heart Failure",
+    "english_nlp_keywords": ["hyperthyroid HR 180 fever 105 confused chest pain"],
+    "hindi_hinglish_triggers": ["thyroid badh kar bukhar dhadkan phat rahi ghabrahat"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 147,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Myxedema Coma",
+    "english_nlp_keywords": ["hypothyroid freezing cold not waking up breathing slow"],
+    "hindi_hinglish_triggers": ["thyroid ki marij shareer thanda aur hosh nahi saans ruk rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 148,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Adrenal Crisis with Shock",
+    "english_nlp_keywords": ["stopped steroids suddenly vomiting bp 50"],
+    "hindi_hinglish_triggers": ["steroid chhodne ke baad BP bilkul doob gaya lagatar ulti"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 149,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Major Thermal Burns (>40% TBSA)",
+    "english_nlp_keywords": ["caught on fire chest and both legs burnt"],
+    "hindi_hinglish_triggers": ["aag lag gayi poora chhati aur pair jal gaye"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 150,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Airway Burns",
+    "english_nlp_keywords": ["face burnt eyebrows singed hoarse voice"],
+    "hindi_hinglish_triggers": ["chehra jal gaya aur awaaz baith gayi hai saans mein dikkat"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 151,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "High-Voltage Electrocution",
+    "english_nlp_keywords": ["grabbed high power line unconscious"],
+    "hindi_hinglish_triggers": ["bijli ke bade taar se chipak gaye hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 152,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Lightning Strike",
+    "english_nlp_keywords": ["struck by lightning burnt clothes confused"],
+    "hindi_hinglish_triggers": ["aasmaani bijli giri kapde jal gaye hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 153,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Exertional Heat Stroke - Coma",
+    "english_nlp_keywords": ["collapsed in sun skin dry hot as oven unconscious"],
+    "hindi_hinglish_triggers": ["dhoop mein loo lagi shareer tap raha pasina nahi aur behosh"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 154,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Severe Hypothermia (<28°C)",
+    "english_nlp_keywords": ["found in snow stiff pulse extremely slow"],
+    "hindi_hinglish_triggers": ["barf mein jam gaye the shareer lakkad ho gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 155,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Environmental & Burns",
+    "condition_name": "Chemical Burn - Extensive Acid",
+    "english_nlp_keywords": ["bucket of acid thrown on face and chest"],
+    "hindi_hinglish_triggers": ["chehre aur chhati par tezaab phek diya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 156,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Eclampsia (Seizures in Pregnancy)",
+    "english_nlp_keywords": ["pregnant woman having a fit", "convulsing with baby bump"],
+    "hindi_hinglish_triggers": ["garbhavati mahila ko mirgi ka daura pad gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 157,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Umbilical Cord Prolapse",
+    "english_nlp_keywords": ["water broke and cord is hanging out"],
+    "hindi_hinglish_triggers": ["pani chhut gaya aur bachhe ki naal bahar aa gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 158,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Imminent Delivery / Crowning",
+    "english_nlp_keywords": ["baby's head is coming out right now pushing"],
+    "hindi_hinglish_triggers": ["bachhe ka sar bahar aa raha hai delivery yahin ho jayegi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 159,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Placenta Previa with Massive Bleed",
+    "english_nlp_keywords": ["painless massive bleeding soaking clothes 8 months pregnant"],
+    "hindi_hinglish_triggers": ["8th mahina hai bina dard ke behisaab bleeding"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 160,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Amniotic Fluid Embolism",
+    "english_nlp_keywords": ["just gave birth suddenly collapsed blue cannot breathe"],
+    "hindi_hinglish_triggers": ["delivery hote hi achanak neeli pad gayi saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 161,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Ruptured Ovarian Cyst with Hemorrhagic Shock",
+    "english_nlp_keywords": ["sudden sharp belly pain fainted pale and cold"],
+    "hindi_hinglish_triggers": ["pet mein achanak chubhan aur chakkar kha ke gir gayi skin thandi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 162,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "Uterine Inversion",
+    "english_nlp_keywords": ["delivered placenta and uterus fell out massive bleeding"],
+    "hindi_hinglish_triggers": ["bachhedani bahar nikal aayi hai aur bahut khoon beh raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 163,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Obstetrics & Gynecology",
+    "condition_name": "HELLP Syndrome Crisis",
+    "english_nlp_keywords": ["pregnant severe right belly pain vomiting bleeding gums BP 200"],
+    "hindi_hinglish_triggers": ["pregnancy mein BP bohot high masudo se khoon sidhe pet mein dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 164,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Neonatal Apnea",
+    "english_nlp_keywords": ["newborn baby stopped breathing turning blue"],
+    "hindi_hinglish_triggers": ["navjat shishu ki saans ruk gayi neela pad gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 165,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Neonatal Seizure",
+    "english_nlp_keywords": ["newborn jerking arms continuously cycling legs"],
+    "hindi_hinglish_triggers": ["chota bachha lagatar jhatke kha raha haath pair chala raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 166,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Floppy Infant / Extreme Lethargy",
+    "english_nlp_keywords": ["baby is like a ragdoll won't wake up at all"],
+    "hindi_hinglish_triggers": ["bachhe mein jaan nahi lag rahi uth nahi raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 167,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Pediatric Foreign Body Aspiration (Airway)",
+    "english_nlp_keywords": ["toddler swallowed coin gasping for air purple"],
+    "hindi_hinglish_triggers": ["bachhe ne sikka nigla saans atak gayi chehra baingani"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 168,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Pediatric Sepsis with Purpura",
+    "english_nlp_keywords": ["baby has high fever and purple spots spreading fast"],
+    "hindi_hinglish_triggers": ["bachhe ko tej bukhar aur jism par neele nishaan badh rahe"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 169,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Status Asthmaticus in Child",
+    "english_nlp_keywords": ["kid wheezing violently ribs sucking in blue lips"],
+    "hindi_hinglish_triggers": ["bachhe ki pasli chal rahi aur hoth neele"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 170,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "SIDS (Sudden Infant Death Syndrome) Presentation",
+    "english_nlp_keywords": ["found baby in crib cold and blue not breathing"],
+    "hindi_hinglish_triggers": ["bachha palne mein thanda pada hai saans nahi chal rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 171,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Intussusception with Shock",
+    "english_nlp_keywords": ["baby screaming red jelly poop completely limp now"],
+    "hindi_hinglish_triggers": ["bachha roya khooni jelly jaisi latrine aur ab behosh"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 172,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Neonatal Hypothermia",
+    "english_nlp_keywords": ["newborn feels like ice completely blue limbs"],
+    "hindi_hinglish_triggers": ["paida hua bachha barf jaisa thanda aur neela ho gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 173,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Pediatric & Neonatal",
+    "condition_name": "Neonatal Jaundice with Kernicterus",
+    "english_nlp_keywords": ["baby very yellow arched back crying high pitched"],
+    "hindi_hinglish_triggers": ["bachha poora peela kamar piche mod kar buri tarah ro raha"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 174,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Surgical/Abdominal Emergencies",
+    "condition_name": "Perforated Viscus (Stomach/Intestine Rupture)",
+    "english_nlp_keywords": ["sudden explosive stomach pain belly hard as a board"],
+    "hindi_hinglish_triggers": ["pet achanak phatne jaisa dard aur patthar jaisa kathor"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 175,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Surgical/Abdominal Emergencies",
+    "condition_name": "Mesenteric Ischemia (Dead Bowel)",
+    "english_nlp_keywords": ["unbearable stomach pain but soft belly bloody stool in elderly"],
+    "hindi_hinglish_triggers": ["bujurg ko asahaniya pet dard aur latrine mein khoon"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 176,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Surgical/Abdominal Emergencies",
+    "condition_name": "Strangulated Hernia",
+    "english_nlp_keywords": ["groin lump turned purple extreme pain vomiting"],
+    "hindi_hinglish_triggers": ["hernia ki gaanth neeli pad gayi bhayanak dard ulti"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 177,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Surgical/Abdominal Emergencies",
+    "condition_name": "Acute Cholangitis (Charcot's Triad)",
+    "english_nlp_keywords": ["high fever yellow eyes severe right upper belly pain confused"],
+    "hindi_hinglish_triggers": ["tej bukhar peeli aankh sidhe pet dard aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 178,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Meningococcal Sepsis",
+    "english_nlp_keywords": ["stiff neck photophobia rash that doesn't fade fading in out"],
+    "hindi_hinglish_triggers": ["gardan akdi laal chitte jo dabne par na mite aur hosh nahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 179,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Necrotizing Fasciitis (Flesh Eating Bacteria)",
+    "english_nlp_keywords": ["skin turning black spreading by the minute extreme pain"],
+    "hindi_hinglish_triggers": ["chamdi kaali pad rahi tez phail rahi asahaniya dard"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 180,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Rabies - Furious Phase",
+    "english_nlp_keywords": ["dog bite months ago now terrified of water spasms drooling"],
+    "hindi_hinglish_triggers": ["kutte ne kaata tha ab paani se darr muh se jhaag aur jhatke"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 181,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Tetanus - Generalized",
+    "english_nlp_keywords": ["rusty nail wound now jaw completely locked spasms back arched"],
+    "hindi_hinglish_triggers": ["lohe se chot lagi thi ab jabda lock aur poora shareer akad gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 182,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Fulminant Hepatic Failure",
+    "english_nlp_keywords": ["jaundice completely confused flapping hands vomiting blood"],
+    "hindi_hinglish_triggers": ["peeliya tha ab bilkul pagalpanti khoon ki ulti haath kaanp rahe"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 183,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Infectious Diseases",
+    "condition_name": "Cerebral Malaria",
+    "english_nlp_keywords": ["malaria patient unarousable having seizures"],
+    "hindi_hinglish_triggers": ["malaria tha ab coma mein aur mirgi aa rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 184,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Ophthalmological Emergencies",
+    "condition_name": "Ruptured Globe",
+    "english_nlp_keywords": ["hit in eye fluid leaking out eyeball deflated"],
+    "hindi_hinglish_triggers": ["aankh mein chot lagi paani nikal gaya aankh baith gayi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 185,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Ophthalmological Emergencies",
+    "condition_name": "Chemical Burn - Alkali in Eye",
+    "english_nlp_keywords": ["lye splashed in eyes blinding burning washing won't stop pain"],
+    "hindi_hinglish_triggers": ["aankh mein chemical chala gaya dhone se bhi aag lag rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 186,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hematological",
+    "condition_name": "Sickle Cell Crisis with Acute Chest",
+    "english_nlp_keywords": ["sickle cell patient chest pain cannot breathe oxygen dropping"],
+    "hindi_hinglish_triggers": ["sickle cell marij ko chhati mein tez chubhan saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 187,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Hematological",
+    "condition_name": "Severe Hemophilia Bleed",
+    "english_nlp_keywords": ["hemophiliac hit head confused"],
+    "hindi_hinglish_triggers": ["hemophilia patient ko sar par chot hosh udd gaya"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 188,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Acute Spinal Epidural Abscess",
+    "english_nlp_keywords": ["iv drug user fever back pain suddenly cannot move legs"],
+    "hindi_hinglish_triggers": ["nasha karta hai bukhar ke baad achanak dono pair lakwa"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 189,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Psychiatric Emergencies",
+    "condition_name": "Active Suicide Attempt - Hanging",
+    "english_nlp_keywords": ["cut down from rope unresponsive"],
+    "hindi_hinglish_triggers": ["fansi ke fande se utara hai saans nahi chal rahi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 190,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Psychiatric Emergencies",
+    "condition_name": "Active Suicide Attempt - Slit Wrists (Arterial)",
+    "english_nlp_keywords": ["slashed wrists pumping blood passing out"],
+    "hindi_hinglish_triggers": ["haath ki nas kaat li khoon ka fawwara chakkar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 191,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Surgical/Abdominal Emergencies",
+    "condition_name": "Evisceration Post-Surgery",
+    "english_nlp_keywords": ["coughed and stomach stitches burst open intestines out"],
+    "hindi_hinglish_triggers": ["khasi aayi taanke phat gaye aante bahar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 192,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Papillary Muscle Rupture (Post-MI)",
+    "english_nlp_keywords": ["had heart attack yesterday now suddenly gasping pink froth"],
+    "hindi_hinglish_triggers": ["kal dil ka daura pada ab achanak dum ghut gaya gulaabi thook"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 193,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Toxicology",
+    "condition_name": "Hydrogen Sulfide Poisoning",
+    "english_nlp_keywords": ["sewer worker collapsed smells like rotten eggs"],
+    "hindi_hinglish_triggers": ["gutter saaf karte hue behosh sade ande ki badboo"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 194,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Penetrating)",
+    "condition_name": "Penetrating Eye Injury with Extrusion",
+    "english_nlp_keywords": ["glass in eye jelly coming out"],
+    "hindi_hinglish_triggers": ["aankh mein kanch ghus gaya andar ka paani bahar"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 195,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Systemic & Allergic",
+    "condition_name": "Transfusion Reaction - Acute Hemolytic",
+    "english_nlp_keywords": ["getting blood feeling impending doom chest pain red urine"],
+    "hindi_hinglish_triggers": ["khoon chadhte hi ghabrahat chhati dard lal peshab"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 196,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Respiratory",
+    "condition_name": "Ludwig's Angina",
+    "english_nlp_keywords": ["tooth infection now neck totally swollen tongue pushed up choking"],
+    "hindi_hinglish_triggers": ["daant ki sujan gale mein phaili jeebh mud gayi saans band"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 197,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Neurological",
+    "condition_name": "Shaken Baby Syndrome",
+    "english_nlp_keywords": ["infant unresponsive retinal hemorrhage slow pulse"],
+    "hindi_hinglish_triggers": ["bachhe ko hilaya gaya tha ab hosh nahi aur saans dheemi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 198,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Trauma (Blunt & Crush)",
+    "condition_name": "Spinal Shock",
+    "english_nlp_keywords": ["fell on back zero reflexes completely flaccid low bp"],
+    "hindi_hinglish_triggers": ["peeth ke bal gire shareer lunj punj BP zero"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 199,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Metabolic & Endocrine",
+    "condition_name": "Water Intoxication (Severe Hyponatremia)",
+    "english_nlp_keywords": ["drank gallons of water seizing and vomiting coma"],
+    "hindi_hinglish_triggers": ["bahut zyada paani piya ab mirgi aur behoshi"],
+    "action": "IMMEDIATE_BYPASS"
+  },
+  {
+    "id": 200,
+    "urgency_tier": "Tier 1 - Immediate (0 Min)",
+    "category": "Cardiovascular",
+    "condition_name": "Ventricular Tachycardia (Pulseless)",
+    "english_nlp_keywords": ["monitor shows v-tach patient unresponsive no pulse"],
+    "hindi_hinglish_triggers": ["dhadkan bohot tez machine par aur mariz behosh nabz gayab"],
+    "action": "IMMEDIATE_BYPASS"
+  }
+]

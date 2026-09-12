@@ -101,9 +101,9 @@ test('SMS adapter distinguishes provider acceptance from delivery and supports d
  assert.equal((await sms.send('+15555550123','Reminder')).status,'queued');assert.equal(await sms.status(sid),'delivered');assert.equal(calls[0].init.body.get('To'),'+15555550123');assert.match(calls[1].url,new RegExp(sid))
 })
 
-test('high severity produces yellow review and cannot resume by changing an answer',()=>serve({},async req=>{
-  const r=await req('/intake/questions',{complaint:'headache',answers:{severity:'8','headache.warning':'no'},sessionId:'priority-visit',language:'English'})
+test('high severity/yellow triage produces yellow review and cannot resume by changing an answer',()=>serve({},async req=>{
+  const r=await req('/intake/questions',{complaint:'fever for 5 days with vomiting and diarrhoea',answers:{},sessionId:'priority-visit',language:'English'})
   assert.equal(r.data.triageLevel,'yellow');assert.equal(r.data.stopQuestionnaire,true);assert.deepEqual(r.data.questions,[])
-  const next=await req('/intake/questions',{complaint:'headache',answers:{severity:'2','headache.warning':'no'},sessionId:'priority-visit',pathway:'ayush',language:'English'})
+  const next=await req('/intake/questions',{complaint:'fever for 5 days with vomiting and diarrhoea',answers:{'fever.duration':'1'},sessionId:'priority-visit',pathway:'ayush',language:'English'})
   assert.equal(next.data.triageLevel,'yellow');assert.equal(next.data.nextQuestion,null)
 }))

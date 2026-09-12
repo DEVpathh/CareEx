@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { requestBhashiniTTS } from '../../services/bhashiniService'
 
 type Recognition = {
   lang: string; continuous: boolean; interimResults: boolean
@@ -69,14 +70,45 @@ export function useKioskVoice({ language, enabled, onTranscript }: { language: s
     try { instance.start(); setStatus('listening') } catch { recognition.current = null; setStatus('idle'); setError(currentHi ? 'माइक शुरू नहीं हुआ। फिर कोशिश करें।' : 'The microphone could not start. Try again.') }
   }, [stop])
 
-  const speak = useCallback((text: string, listenAfter = false) => {
+  const speak = useCallback(async (text: string, listenAfter = false) => {
     stop(); setError('')
     if (!settings.current.enabled || !text) return
     const currentHi = settings.current.language !== 'English'
-    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
-      setError(currentHi ? 'इस ब्राउज़र में ऑडियो उपलब्ध नहीं है। स्क्रीन पर सवाल पढ़ें।' : 'Audio is unavailable in this browser. Read the question on screen.'); return
-    }
     const current = sequence.current
+    const langCode = currentHi ? 'hi' : 'en'
+
+    try {
+      setStatus('speaking')
+      const bhashiniRes = await requestBhashiniTTS(text, langCode, 'female')
+      if (current !== sequence.current) return
+
+      if (bhashiniRes?.audioContent) {
+        const audioUrl = `data:audio/${bhashiniRes.audioFormat || 'wav'};base64,${bhashiniRes.audioContent}`
+        const audio = new Audio(audioUrl)
+        audio.onended = () => {
+          if (current !== sequence.current) return
+          setStatus('idle')
+          clearTimeout(timer.current)
+          if (listenAfter) timer.current = setTimeout(() => { if (current === sequence.current) listen() }, 300)
+        }
+        audio.onerror = () => {
+          // Fallback to WebSpeech API if audio element fail
+          playWebSpeech(text, currentHi, current, listenAfter)
+        }
+        audio.play().catch(() => playWebSpeech(text, currentHi, current, listenAfter))
+        return
+      }
+    } catch {
+      // Fallback to browser SpeechSynthesis
+    }
+
+    playWebSpeech(text, currentHi, current, listenAfter)
+  }, [listen, stop])
+
+  const playWebSpeech = (text: string, currentHi: boolean, currentSequence: number, listenAfter: boolean) => {
+    if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+      setError(currentHi ? 'इस ब्राउज़र में ऑडियो उपलब्ध नहीं है। स्क्रीन पर सवाल पढ़ें।' : 'Audio is unavailable in this browser. Read the question on screen.'); setStatus('idle'); return
+    }
     const message = new SpeechSynthesisUtterance(text)
     const prefix = currentHi ? 'hi' : 'en'
     message.lang = currentHi ? 'hi-IN' : 'en-IN'
@@ -85,13 +117,13 @@ export function useKioskVoice({ language, enabled, onTranscript }: { language: s
     const selected = voices.find(voice => voice.lang === message.lang) ?? voices.find(voice => voice.lang.startsWith(prefix))
     if (selected) message.voice = selected
     message.onend = () => {
-      if (current !== sequence.current) return
+      if (currentSequence !== sequence.current) return
       utterance.current = null; setStatus('idle')
       clearTimeout(timer.current)
-      if (listenAfter) timer.current = setTimeout(() => { if (current === sequence.current) listen() }, 300)
+      if (listenAfter) timer.current = setTimeout(() => { if (currentSequence === sequence.current) listen() }, 300)
     }
     message.onerror = event => {
-      if (current !== sequence.current || event.error === 'interrupted' || event.error === 'canceled') return
+      if (currentSequence !== sequence.current || event.error === 'interrupted' || event.error === 'canceled') return
       clearTimeout(timer.current); setStatus('idle'); utterance.current = null
       setError(currentHi ? 'हिन्दी आवाज़ नहीं चल पाई। डिवाइस में हिन्दी voice जोड़ें या नीचे जवाब लिखें।' : 'Audio could not play. Check the device voice settings or enter your answer.')
     }
@@ -99,8 +131,8 @@ export function useKioskVoice({ language, enabled, onTranscript }: { language: s
     setStatus('speaking')
     window.speechSynthesis.resume()
     window.speechSynthesis.speak(message)
-    timer.current = setTimeout(() => { if (current === sequence.current) { stop(); setError(currentHi ? 'आवाज़ रुक गई। सवाल फिर सुनें या जवाब लिखें।' : 'Audio timed out. Replay the question or enter your answer.') } }, 45000)
-  }, [listen, stop])
+    timer.current = setTimeout(() => { if (currentSequence === sequence.current) { stop(); setError(currentHi ? 'आवाज़ रुक गई। सवाल फिर सुनें या जवाब लिखें।' : 'Audio timed out. Replay the question or enter your answer.') } }, 45000)
+  }
 
   useEffect(() => { stop(); setError('') }, [language, enabled, stop])
   useEffect(() => () => { sequence.current += 1; clearTimeout(timer.current); recognition.current?.abort(); window.speechSynthesis?.cancel() }, [])

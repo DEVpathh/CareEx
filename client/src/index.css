@@ -159,6 +159,11 @@ svg { flex-shrink: 0; }
 .urgent-banner h2 { font-size: 1.15rem; }
 .urgent-banner p { line-height: 1.7; margin-top: 5px; }
 .urgent-banner > button { margin-left: auto; padding: 13px 18px; background: #bd364c; color: white; border-radius: 12px; font-weight: 650; white-space: nowrap; }
+.emergency-screen { position: fixed !important; inset: 0 !important; z-index: 9999 !important; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%) !important; color: #ffffff !important; border: 6px solid #7f1d1d !important; padding: 48px 32px !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; box-shadow: 0 0 100px rgba(185, 28, 28, 0.8) !important; width: 100vw !important; height: 100vh !important; }
+.emergency-screen h1, .emergency-screen h2, .emergency-screen h3, .emergency-screen p { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.emergency-icon { display: grid; place-items: center; width: 110px; height: 110px; border-radius: 50%; background: #ffffff; color: #dc2626; margin: 0 auto 24px; animation: pulse-ring 1.5s ease-in-out infinite; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.emergency-screen button { background: #ffffff !important; color: #dc2626 !important; font-weight: 800 !important; border: none !important; font-size: 1.2rem !important; padding: 18px 32px !important; border-radius: 16px !important; box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important; }
+.emergency-screen button:hover { background: #fef2f2 !important; transform: scale(1.04); }
 .success-card { border: 1px solid var(--brand-border); background: white; border-radius: 28px; padding: 44px; max-width: 850px; margin: 0 auto; text-align: center; }
 .success-card .eyebrow { justify-content: center; margin-top: 23px; }
 .success-icon { display: grid; place-items: center; width: 104px; height: 104px; border-radius: 50%; background: #e6f8eb; color: #2a8850; margin: auto; }

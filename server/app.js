@@ -9,9 +9,29 @@ import { randomUUID } from 'node:crypto'
 import { existsSync, readFileSync, mkdirSync, writeFileSync, renameSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { analyseIntake, symptomCatalog } from './intake.js'
+import {
+  bhashiniASR,
+  bhashiniTranslate,
+  bhashiniTransliterate,
+  bhashiniTTS,
+  bhashiniAudioLangDetection,
+  bhashiniTextLangDetection,
+  bhashiniNER,
+  bhashiniOCR,
+  bhashiniSpeakerVerify,
+  bhashiniSpeakerDiarization,
+  bhashiniLanguageDiarization,
+  bhashiniVoiceCloning,
+  bhashiniLipSync,
+  bhashiniKWS,
+  getBhashiniModelsPipeline,
+  executeBhashiniPipelineCompute,
+  getBhashiniTransliterationConfig
+} from './bhashiniService.js'
+import { BHASHINI_MODEL_REGISTRY, BHASHINI_PIPELINE_IDS } from './bhashiniConfig.js'
 
 const experience = {
-  brand: { name: 'CareX', organisation: 'Your health, our care' },
+  brand: { name: 'Swasthya Setu', organisation: 'Your health, our care' },
   languages: [{ label: 'हिन्दी', locale: 'hi-IN' }, { label: 'English', locale: 'en-IN' }],
   steps: ['Your concern', 'Patient details', 'Consent', 'Review'],
   identificationOptions: [
@@ -24,7 +44,7 @@ const experience = {
     { id: 'priorRecords', label: 'Allow my doctor to review earlier records, if available' },
     { id: 'careTeamSharing', label: 'Share my visit summary with the care team' },
   ],
-  welcome: { eyebrow: 'CareX', title: 'हेलो, क्या समस्या है आपको?', description: '', prompt: 'हेलो, क्या समस्या है आपको?' },
+  welcome: { eyebrow: 'Swasthya Setu', title: 'हेलो, क्या समस्या है आपको?', description: '', prompt: 'हेलो, क्या समस्या है आपको?' },
 }
 const envelope = data => ({ data, requestId: randomUUID(), timestamp: new Date().toISOString() })
 const isHindi = language => /हिन्दी|हिंदी|^hi|hindi/i.test(language ?? '')
@@ -93,7 +113,6 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
       const value = answers[question.id]
       if (value === undefined || !value.trim()) continue
       if (question.options && !question.options.some(option => option.value === value)) return res.status(400).json({ message: 'Choose one of the displayed answers.' })
-      if (question.type === 'number' && (!Number.isFinite(Number(value)) || Number(value) < question.min || Number(value) > question.max)) return res.status(400).json({ message: 'Severity must be between 0 and 10.' })
     }
     analysis = stopForTriage(analysis, req.body?.language, triageSessions.get(req.body?.sessionId))
     if (analysis.stopQuestionnaire && typeof req.body?.sessionId === 'string' && req.body.sessionId.length <= 100) { triageSessions.set(req.body.sessionId, analysis.triageLevel); persist() }
@@ -207,6 +226,160 @@ export function createApp({ storagePath = null, ocr = createOcr(), sms = createS
     res.json(envelope(fhirBundle))
   })
 
+  // Bhashini Integration Routes
+  app.get('/api/v1/bhashini/models', (_req, res) => res.json(envelope({ registry: BHASHINI_MODEL_REGISTRY, pipelines: BHASHINI_PIPELINE_IDS })))
+
+  app.post('/api/v1/bhashini/pipeline-config', async (req, res, next) => {
+    try {
+      const { pipelineId, pipelineTasks, taskType, sourceLanguage, targetLanguage, useConfig } = req.body ?? {}
+      const result = await getBhashiniModelsPipeline({ pipelineId, pipelineTasks, taskType, sourceLanguage, targetLanguage, useConfig })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/transliteration-config', async (req, res, next) => {
+    try {
+      const { pipelineId, sourceLanguage = 'en', targetLanguage = 'hi', useConfig } = req.body ?? {}
+      const result = await getBhashiniTransliterationConfig({ pipelineId, sourceLanguage, targetLanguage, useConfig })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/pipeline-compute', async (req, res, next) => {
+    try {
+      const { pipelineId, tasks, audioBase64, text, sourceLanguage, targetLanguage, gender } = req.body ?? {}
+      const result = await executeBhashiniPipelineCompute({ pipelineId, tasks, audioBase64, text, sourceLanguage, targetLanguage, gender })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+
+  app.post('/api/v1/bhashini/asr', async (req, res, next) => {
+    try {
+      const { audioBase64, language = 'hi', samplingRate = 16000, audioFormat = 'wav' } = req.body ?? {}
+      if (!audioBase64) return res.status(400).json({ message: 'audioBase64 is required.' })
+      const result = await bhashiniASR({ audioBase64, language, samplingRate, audioFormat })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/translate', async (req, res, next) => {
+    try {
+      const { text, sourceLanguage = 'en', targetLanguage = 'hi' } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniTranslate({ text, sourceLanguage, targetLanguage })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/transliterate', async (req, res, next) => {
+    try {
+      const { text, sourceLanguage = 'en', targetLanguage = 'hi', isSentence = false, numSuggestions = 5, serviceId } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniTransliterate({ text, sourceLanguage, targetLanguage, isSentence, numSuggestions, serviceId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/tts', async (req, res, next) => {
+    try {
+      const { text, language = 'hi', gender = 'female' } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniTTS({ text, language, gender })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/audio-lang-detection', async (req, res, next) => {
+    try {
+      const { audioBase64, audioUri, samplingRate = 16000, audioFormat = 'wav', serviceId } = req.body ?? {}
+      if (!audioBase64 && !audioUri) return res.status(400).json({ message: 'audioBase64 or audioUri is required.' })
+      const result = await bhashiniAudioLangDetection({ audioBase64, audioUri, samplingRate, audioFormat, serviceId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/text-lang-detection', async (req, res, next) => {
+    try {
+      const { text, serviceId } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniTextLangDetection({ text, serviceId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/ner', async (req, res, next) => {
+    try {
+      const { text, language = 'hi' } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniNER({ text, language })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/ocr', async (req, res, next) => {
+    try {
+      const { imageBase64, imageUri, modality = 'Printed Text', language = 'hi', textDetection = false, serviceId } = req.body ?? {}
+      if (!imageBase64 && !imageUri) return res.status(400).json({ message: 'imageBase64 or imageUri is required.' })
+      const result = await bhashiniOCR({ imageBase64, imageUri, modality, language, textDetection, serviceId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/speaker-verify', async (req, res, next) => {
+    try {
+      const { audioBase64, audioUri, speakerId } = req.body ?? {}
+      if (!audioBase64 && !audioUri) return res.status(400).json({ message: 'audioBase64 or audioUri is required.' })
+      const result = await bhashiniSpeakerVerify({ audioBase64, audioUri, speakerId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/speaker-diarization', async (req, res, next) => {
+    try {
+      const { audioBase64, audioUri, numberOfSpeakers = 2, preProcessors = [], serviceId } = req.body ?? {}
+      if (!audioBase64 && !audioUri) return res.status(400).json({ message: 'audioBase64 or audioUri is required.' })
+      const result = await bhashiniSpeakerDiarization({ audioBase64, audioUri, numberOfSpeakers, preProcessors, serviceId })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/language-diarization', async (req, res, next) => {
+    try {
+      const { audioBase64, audioUri } = req.body ?? {}
+      if (!audioBase64 && !audioUri) return res.status(400).json({ message: 'audioBase64 or audioUri is required.' })
+      const result = await bhashiniLanguageDiarization({ audioBase64, audioUri })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/voice-cloning', async (req, res, next) => {
+    try {
+      const { text, referenceAudioBase64, language = 'hi' } = req.body ?? {}
+      if (!text) return res.status(400).json({ message: 'text is required.' })
+      const result = await bhashiniVoiceCloning({ text, referenceAudioBase64, language })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/lip-sync', async (req, res, next) => {
+    try {
+      const { videoBase64, audioBase64 } = req.body ?? {}
+      const result = await bhashiniLipSync({ videoBase64, audioBase64 })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
+  app.post('/api/v1/bhashini/kws', async (req, res, next) => {
+    try {
+      const { audioBase64, keywords = [], language = 'hi' } = req.body ?? {}
+      if (!audioBase64) return res.status(400).json({ message: 'audioBase64 is required.' })
+      const result = await bhashiniKWS({ audioBase64, keywords, language })
+      res.json(envelope(result))
+    } catch (err) { next(err) }
+  })
+
   app.use((err, _req, res, _next) => res.status(err.status === 400 ? 400 : 500).json({ message: err.status === 400 ? 'Invalid request body.' : 'Unable to save or load data. Please try again.' }))
   return app
 }
+
